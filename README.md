@@ -1,6 +1,7 @@
 # KOOMPI AppStore
 
 **Objectives**
+
 This is a free and opensource AppStore for KOOMPI OS. The objectives of making this up are to:
 
 - Ensure free and opensource software become to more accessible yet more appealing to mass use.
@@ -9,6 +10,7 @@ This is a free and opensource AppStore for KOOMPI OS. The objectives of making t
 - Help developers to be rewardful for thier kind-hearted achievements.
 
 **TO-DO's**
+
 As of now, we don't have a clear roadmap on how to exactly implement yet. However, the followings
 are brief to-do's:
 
