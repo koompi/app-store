@@ -8,25 +8,22 @@ import {
 	Rate,
 	Button,
 	Tabs,
-	Timeline,
 	Tag,
 	List,
 	Collapse,
 	Divider,
-	Affix,
 	Descriptions,
 	Comment,
 } from "antd";
 import {
 	DownloadOutlined,
-	CopyOutlined,
 	CodeOutlined,
 	PlusSquareFilled,
 	TagOutlined,
 } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import { Link } from "react-router-dom";
-import { OmitProps } from "antd/lib/transfer/renderListBody";
+
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -36,7 +33,7 @@ function callback(key) {
 const ExampleComment = ({ children }) => (
 	<Comment
 		actions={[<span key="comment-nested-reply-to">Reply to</span>]}
-		author={<a>Han Solo</a>}
+		author={<a href="/">Han Solo</a>}
 		avatar={
 			<Avatar
 				src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -278,21 +275,7 @@ const AppDetail = (props) => {
 								</Col>
 							</Row>
 						</TabPane>
-						<TabPane
-							className="alltabs"
-							tab={
-								<Link to="#repository" style={{ color: "#333" }}>
-									Source Repository
-								</Link>
-							}
-							key="#repository"
-						>
-							<ReactMarkdown
-								className="mde"
-								escapeHtml={false}
-								source={mdText}
-							/>
-						</TabPane>
+
 						<TabPane
 							className="alltabs"
 							tab={
@@ -308,7 +291,21 @@ const AppDetail = (props) => {
 									<ExampleComment />
 								</ExampleComment>
 							</ExampleComment>
-							,
+						</TabPane>
+						<TabPane
+							className="alltabs"
+							tab={
+								<Link to="#repository" style={{ color: "#333" }}>
+									About Owner
+								</Link>
+							}
+							key="#repository"
+						>
+							<ReactMarkdown
+								className="mde"
+								escapeHtml={false}
+								source={mdText}
+							/>
 						</TabPane>
 					</Tabs>
 				</Col>

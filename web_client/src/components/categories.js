@@ -1,12 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SearchComponent from "./search";
-import { Row, Col, Skeleton, Switch, Card, Avatar } from "antd";
-import {
-	EditOutlined,
-	EllipsisOutlined,
-	SettingOutlined,
-} from "@ant-design/icons";
+import { Row, Col, Card, Avatar } from "antd";
 
 const { Meta } = Card;
 

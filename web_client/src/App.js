@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
-import { Layout, Menu, Breadcrumb, Row, Input, Affix, Col } from "antd";
+import { Layout, Menu } from "antd";
 import {
-	UserOutlined,
 	SettingOutlined,
 	CloudSyncOutlined,
 	DownloadOutlined,
 	AppstoreOutlined,
-	SearchOutlined,
+	HomeOutlined,
 } from "@ant-design/icons";
 
 // CSS
@@ -15,23 +14,19 @@ import "./App.css";
 // ASSETS
 import KoompiLogoBlack from "./assets/svgs/koompi-logo-black.svg";
 import KoompiIconBlack from "./assets/svgs/koompi-icon-black.svg";
-import SearchComponent from "./components/search";
 import Home from "./components/home";
 import Categories from "./components/categories";
 import Installed from "./components/installed";
 import Update from "./components/update";
-import Settings from "./components/settings";
+import Settings from "./components/settings/index";
 import AppDetail from "./components/app_detail";
+
 // VARS
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Content, Footer, Sider } = Layout;
 
 function App() {
-	const [collapsed, setCollapsed] = useState(false);
+	const [collapsed] = useState(false);
 
-	const onCollapse = () => {
-		setCollapsed(!collapsed);
-	};
 	let url = window.location.pathname;
 
 	return (
@@ -54,56 +49,60 @@ function App() {
 					<Menu
 						mode="inline"
 						defaultSelectedKeys={[url]}
+						defaultOpenKeys={[url]}
 						style={{ height: "100%", borderRight: 0, zIndex: 999 }}
 					>
-						<Menu.Item key="/">
-							<NavLink
-								exact={true}
-								to="/"
-								style={{ color: "#333" }}
-								activeStyle={{ color: "#1890ff" }}
-							>
-								<UserOutlined style={{ fontSize: "22px" }} />
-								Home
-							</NavLink>
-						</Menu.Item>
-						<Menu.Item key="/categories">
-							<NavLink
-								exact={true}
-								to="/categories"
-								style={{ color: "#333" }}
-								activeStyle={{ color: "#1890ff" }}
-							>
-								<AppstoreOutlined style={{ fontSize: "22px" }} />
-								Categories
-							</NavLink>
-						</Menu.Item>
+						<Menu.ItemGroup key="/" title="Explore">
+							<Menu.Item key="/">
+								<NavLink
+									exact={true}
+									to="/"
+									style={{ color: "#333" }}
+									activeStyle={{ color: "#1890ff" }}
+								>
+									<HomeOutlined style={{ fontSize: "22px" }} />
+									Store
+								</NavLink>
+							</Menu.Item>
+							<Menu.Item key="/categories">
+								<NavLink
+									exact={true}
+									to="/categories"
+									style={{ color: "#333" }}
+									activeStyle={{ color: "#1890ff" }}
+								>
+									<AppstoreOutlined style={{ fontSize: "22px" }} />
+									Categories
+								</NavLink>
+							</Menu.Item>
+						</Menu.ItemGroup>
+						<Menu.ItemGroup key="/manage_apps" title="Manage">
+							<Menu.Item key="/installed">
+								<NavLink
+									exact={true}
+									to="/installed"
+									style={{ color: "#333" }}
+									activeStyle={{
+										color: "#1890ff",
+									}}
+								>
+									<DownloadOutlined style={{ fontSize: "22px" }} />
+									My Applications
+								</NavLink>
+							</Menu.Item>
 
-						<Menu.Item key="/installed">
-							<NavLink
-								exact={true}
-								to="/installed"
-								style={{ color: "#333" }}
-								activeStyle={{
-									color: "#1890ff",
-								}}
-							>
-								<DownloadOutlined style={{ fontSize: "22px" }} />
-								Installed
-							</NavLink>
-						</Menu.Item>
-
-						<Menu.Item key="/updates">
-							<NavLink
-								exact={true}
-								to="/updates"
-								style={{ color: "#333" }}
-								activeStyle={{ color: "#1890ff" }}
-							>
-								<CloudSyncOutlined style={{ fontSize: "22px" }} />
-								Update
-							</NavLink>
-						</Menu.Item>
+							<Menu.Item key="/updates">
+								<NavLink
+									exact={true}
+									to="/updates"
+									style={{ color: "#333" }}
+									activeStyle={{ color: "#1890ff" }}
+								>
+									<CloudSyncOutlined style={{ fontSize: "22px" }} />
+									Operating System
+								</NavLink>
+							</Menu.Item>
+						</Menu.ItemGroup>
 						<Menu.Item key="/settings">
 							<NavLink
 								exact={true}
@@ -111,8 +110,7 @@ function App() {
 								style={{ color: "#333" }}
 								activeStyle={{ color: "#1890ff" }}
 							>
-								<SettingOutlined style={{ fontSize: "22px" }} />
-								Settings
+								<SettingOutlined style={{ fontSize: "22px" }} /> Settings
 							</NavLink>
 						</Menu.Item>
 					</Menu>

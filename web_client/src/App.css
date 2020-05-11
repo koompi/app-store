@@ -53,3 +53,16 @@ div > p > img {
 .mde img {
 	width: auto;
 }
+
+ul.ant-menu.ant-menu-sub.ant-menu-inline
+	> li.ant-menu-item.ant-menu-item-only-child {
+	padding-left: 35px !important;
+}
+
+.ant-tabs .ant-tabs-left-bar .ant-tabs-tab,
+.ant-tabs .ant-tabs-right-bar .ant-tabs-tab {
+	padding: 0;
+}
+.ant-form-item-label {
+	text-align: left;
+}

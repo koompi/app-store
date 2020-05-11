@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Row, Col, Card, Avatar, Typography, Space, Rate } from "antd";
 import { DownloadOutlined } from "@ant-design/icons";
 import SearchComponent from "./search";
-const { Meta } = Card;
 const { Text, Title } = Typography;
 
 const data = [
