@@ -1,5 +1,6 @@
 import React, { useReducer, createContext } from "react";
 import reducer from "./reducer";
+
 export const GlobalStateContext = createContext();
 
 const GlobalStateProvider = (props) => {

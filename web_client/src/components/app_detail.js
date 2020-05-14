@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import {
 	Row,
 	Col,
@@ -75,6 +76,9 @@ const deps = [
 ];
 const AppDetail = (props) => {
 	const [mdText, setMdText] = useState("");
+
+	const { user } = useContext(AuthContext);
+
 	useEffect(() => {
 		fetch("https://raw.githubusercontent.com/microsoft/vscode/master/README.md")
 			.then((response) => {
@@ -116,7 +120,9 @@ const AppDetail = (props) => {
 					</Space>
 					<br />
 					<Space style={{ margin: "10px 0" }}>
-						<Button>Install</Button>
+						<Button disabled={user.role === "GUEST" ? true : false}>
+							Install
+						</Button>
 						<Button>Download</Button>
 						<Button>
 							<code>pi install vscode</code>
