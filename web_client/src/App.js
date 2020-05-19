@@ -1,22 +1,6 @@
 import React, { useState } from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
-import {
-	Layout,
-	Menu,
-	Button,
-	Modal,
-	Form,
-	Input,
-	Checkbox,
-	Radio,
-} from "antd";
-import {
-	SettingOutlined,
-	CloudSyncOutlined,
-	DownloadOutlined,
-	AppstoreOutlined,
-	HomeOutlined,
-} from "@ant-design/icons";
+
+import { Layout, Button } from "antd";
 
 // CSS
 import "./assets/css/App.css";
@@ -32,18 +16,10 @@ import AuthBox from "./utils/authBox";
 
 const { Content, Footer, Sider } = Layout;
 
-const radioStyle = {
-	display: "block",
-	height: "30px",
-	lineHeight: "30px",
-};
-
 function App() {
 	const [collapsed] = useState(false);
 	const [authModal, setAuthMOdal] = useState(false);
-	const [auth, setAuth] = useState(0);
 
-	let url = window.location.pathname;
 	const toggleAuthModal = (status) => {
 		setAuthMOdal(status);
 	};
@@ -61,7 +37,11 @@ function App() {
 						<center>
 							<img
 								className="koompi-logo"
-								src={collapsed ? KoompiIconBlack : KoompiLogoBlack}
+								src={
+									collapsed
+										? KoompiIconBlack
+										: KoompiLogoBlack
+								}
 								alt="logo"
 							/>
 						</center>
@@ -70,9 +50,19 @@ function App() {
 						<AppMenu />
 					</Sider>
 					<Layout
-						className={collapsed ? "site-layout expand" : "site-layout shrink"}
+						className={
+							collapsed
+								? "site-layout expand"
+								: "site-layout shrink"
+						}
 					>
-						<Content style={{ padding: "20px", overflow: "hidden", zIndex: 1 }}>
+						<Content
+							style={{
+								padding: "20px",
+								overflow: "hidden",
+								zIndex: 1,
+							}}
+						>
 							<RouteManager />
 						</Content>
 						<Footer></Footer>
@@ -87,12 +77,18 @@ function App() {
 						zIndex: 1000,
 					}}
 				>
-					<Button type="primary" onClick={() => toggleAuthModal(true)}>
+					<Button
+						type="primary"
+						onClick={() => toggleAuthModal(true)}
+					>
 						Authenticator
 					</Button>
 				</div>
 
-				<AuthBox authModal={authModal} toggleAuthModal={toggleAuthModal} />
+				<AuthBox
+					authModal={authModal}
+					toggleAuthModal={toggleAuthModal}
+				/>
 			</div>
 		</AuthContextProvider>
 	);

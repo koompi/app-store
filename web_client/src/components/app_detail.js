@@ -43,8 +43,8 @@ const ExampleComment = ({ children }) => (
 		}
 		content={
 			<p>
-				We supply a series of design principles, practical patterns and high
-				quality design resources (Sketch and Axure).
+				We supply a series of design principles, practical patterns and
+				high quality design resources (Sketch and Axure).
 			</p>
 		}
 	>
@@ -80,7 +80,9 @@ const AppDetail = (props) => {
 	const { user } = useContext(AuthContext);
 
 	useEffect(() => {
-		fetch("https://raw.githubusercontent.com/microsoft/vscode/master/README.md")
+		fetch(
+			"https://raw.githubusercontent.com/microsoft/vscode/master/README.md"
+		)
 			.then((response) => {
 				if (response.ok) return response.text();
 				else return Promise.reject("Didn't fetch text correctly");
@@ -102,10 +104,12 @@ const AppDetail = (props) => {
 					/>
 				</Col>
 				<Col span={20}>
-					<Title style={{ fontSize: "28px" }}>Visual Studio Code</Title>
+					<Title style={{ fontSize: "28px" }}>
+						Visual Studio Code
+					</Title>
 					<Text>
-						Code editing. Redefined. Free. Built on open source. Runs
-						everywhere.
+						Code editing. Redefined. Free. Built on open source.
+						Runs everywhere.
 					</Text>
 					<br />
 					<Space size="small" style={{ margin: "10px 0" }}>
@@ -115,8 +119,11 @@ const AppDetail = (props) => {
 							src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
 						/>
 						<Text strong>Microsoft</Text> | <DownloadOutlined />
-						<Text style={{ fontSize: "12px" }}> 4M+ Downloads</Text> |{" "}
-						<Rate allowHalf defaultValue={4.5} />
+						<Text style={{ fontSize: "12px" }}>
+							{" "}
+							4M+ Downloads
+						</Text>{" "}
+						| <Rate allowHalf defaultValue={4.5} />
 					</Space>
 					<br />
 					<Space style={{ margin: "10px 0" }}>
@@ -137,7 +144,10 @@ const AppDetail = (props) => {
 						<TabPane
 							className="alltabs"
 							tab={
-								<Link to="#description" style={{ color: "#333" }}>
+								<Link
+									to="#description"
+									style={{ color: "#333" }}
+								>
 									Description
 								</Link>
 							}
@@ -170,9 +180,11 @@ const AppDetail = (props) => {
 									MIT License
 								</Descriptions.Item>
 								<Descriptions.Item label="Owner">
-									<Link to="www.microsoft.com">Microsoft</Link>
+									<Link to="www.microsoft.com">
+										Microsoft
+									</Link>
 								</Descriptions.Item>
-								<Descriptions.Item label="Maintainer">
+								<Descriptions.Item label="DEVELOPER">
 									Brilliant PHAL
 								</Descriptions.Item>
 								<Descriptions.Item label="Package Size">
@@ -183,27 +195,43 @@ const AppDetail = (props) => {
 								</Descriptions.Item>
 							</Descriptions>
 							<br />
-							<Collapse defaultActiveKey={["1"]} onChange={callback}>
-								<Panel header={<Text strong>DEPENDENCIES: </Text>} key="1">
+							<Collapse
+								defaultActiveKey={["1"]}
+								onChange={callback}
+							>
+								<Panel
+									header={<Text strong>DEPENDENCIES: </Text>}
+									key="1"
+								>
 									<List
 										dataSource={deps}
 										renderItem={(item) => (
 											<List.Item>
-												<Typography.Text>{item}</Typography.Text>
+												<Typography.Text>
+													{item}
+												</Typography.Text>
 											</List.Item>
 										)}
 									/>
 								</Panel>
 							</Collapse>
 							<br />
-							<Collapse defaultActiveKey={["1"]} onChange={callback}>
-								<Panel header={<Text strong>REQUIERD BY: </Text>} key="1">
+							<Collapse
+								defaultActiveKey={["1"]}
+								onChange={callback}
+							>
+								<Panel
+									header={<Text strong>REQUIERD BY: </Text>}
+									key="1"
+								>
 									<List
 										size="small"
 										dataSource={deps}
 										renderItem={(item) => (
 											<List.Item>
-												<Typography.Text>{item}</Typography.Text>
+												<Typography.Text>
+													{item}
+												</Typography.Text>
 											</List.Item>
 										)}
 									/>
@@ -230,8 +258,18 @@ const AppDetail = (props) => {
 									<Tag color="#87d068">stable</Tag>
 									<br />
 									<br />
-									<Collapse defaultActiveKey={["1"]} onChange={callback}>
-										<Panel header={<Text strong>RELEASE NOTES :</Text>} key="1">
+									<Collapse
+										defaultActiveKey={["1"]}
+										onChange={callback}
+									>
+										<Panel
+											header={
+												<Text strong>
+													RELEASE NOTES :
+												</Text>
+											}
+											key="1"
+										>
 											<List
 												// header=
 												dataSource={data}
@@ -239,7 +277,12 @@ const AppDetail = (props) => {
 													<List.Item>
 														<Typography.Text>
 															<PlusSquareFilled
-																style={{ color: "#87d068", fontSize: "18px" }}
+																style={{
+																	color:
+																		"#87d068",
+																	fontSize:
+																		"18px",
+																}}
 															/>{" "}
 														</Typography.Text>{" "}
 														{item}
@@ -259,8 +302,18 @@ const AppDetail = (props) => {
 									<Tag color="#87d068">stable</Tag>
 									<br />
 									<br />
-									<Collapse defaultActiveKey={["1"]} onChange={callback}>
-										<Panel header={<Text strong>RELEASE NOTES :</Text>} key="1">
+									<Collapse
+										defaultActiveKey={["1"]}
+										onChange={callback}
+									>
+										<Panel
+											header={
+												<Text strong>
+													RELEASE NOTES :
+												</Text>
+											}
+											key="1"
+										>
 											<List
 												// header=
 												dataSource={data}
@@ -268,7 +321,12 @@ const AppDetail = (props) => {
 													<List.Item>
 														<Typography.Text>
 															<PlusSquareFilled
-																style={{ color: "#87d068", fontSize: "18px" }}
+																style={{
+																	color:
+																		"#87d068",
+																	fontSize:
+																		"18px",
+																}}
 															/>{" "}
 														</Typography.Text>{" "}
 														{item}
@@ -301,7 +359,10 @@ const AppDetail = (props) => {
 						<TabPane
 							className="alltabs"
 							tab={
-								<Link to="#repository" style={{ color: "#333" }}>
+								<Link
+									to="#repository"
+									style={{ color: "#333" }}
+								>
 									About Owner
 								</Link>
 							}

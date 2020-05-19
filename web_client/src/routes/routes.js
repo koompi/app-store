@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { GUEST, USER, MAINTAINER, ADMIN } from "../reducers/auth_reducer";
+import { USER, DEVELOPER, ADMIN } from "../reducers/auth_reducer";
 
 // COMPONENTS
-import ProtectedRoutes from "./protected";
+import UserRoutes from "./users";
+import DeveloperRoutes from "./developer";
+import AdminRoutes from "./admins";
 import GuestRoutes from "./guest";
 
 const RouteManager = (props) => {
@@ -11,11 +13,11 @@ const RouteManager = (props) => {
 
 	switch (user.role) {
 		case USER:
-			return <ProtectedRoutes />;
-		case MAINTAINER:
-			return <ProtectedRoutes />;
+			return <UserRoutes />;
+		case DEVELOPER:
+			return <DeveloperRoutes />;
 		case ADMIN:
-			return <ProtectedRoutes />;
+			return <AdminRoutes />;
 		default:
 			return <GuestRoutes />;
 	}

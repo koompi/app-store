@@ -1,7 +1,7 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Modal, Button } from "antd";
-import { GUEST, USER, MAINTAINER, ADMIN } from "../reducers/auth_reducer";
+import { GUEST, USER, DEVELOPER, ADMIN } from "../reducers/auth_reducer";
 
 const AuthBox = (props) => {
 	const { user, dispatch } = useContext(AuthContext);
@@ -17,18 +17,22 @@ const AuthBox = (props) => {
 			onCancel={() => toggleAuthModal(false)}
 		>
 			<p>
-				<Button onClick={() => dispatch({ type: GUEST })}>{GUEST}</Button>
+				<Button onClick={() => dispatch({ type: GUEST })}>
+					{GUEST}
+				</Button>
 			</p>
 			<p>
 				<Button onClick={() => dispatch({ type: USER })}>{USER}</Button>
 			</p>
 			<p>
-				<Button onClick={() => dispatch({ type: MAINTAINER })}>
-					{MAINTAINER}
+				<Button onClick={() => dispatch({ type: DEVELOPER })}>
+					{DEVELOPER}
 				</Button>
 			</p>
 			<p>
-				<Button onClick={() => dispatch({ type: ADMIN })}>{ADMIN}</Button>
+				<Button onClick={() => dispatch({ type: ADMIN })}>
+					{ADMIN}
+				</Button>
 			</p>
 		</Modal>
 	);

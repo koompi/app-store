@@ -1,5 +1,5 @@
 export const USER = "USER";
-export const MAINTAINER = "MAINTAINER";
+export const DEVELOPER = "DEVELOPER";
 export const ADMIN = "ADMIN";
 export const GUEST = "GUEST";
 
@@ -13,9 +13,9 @@ export const auth_reducer = (state, action) => {
 			UpdateToken({ email: "user@koompi.com", role: USER });
 			return { email: "user@koompi.com", role: USER };
 
-		case MAINTAINER:
-			UpdateToken({ email: "maintaine@koompi.com", role: MAINTAINER });
-			return { email: "maintainer@koompi.com", role: MAINTAINER };
+		case DEVELOPER:
+			UpdateToken({ email: "maintaine@koompi.com", role: DEVELOPER });
+			return { email: "DEVELOPER@koompi.com", role: DEVELOPER };
 
 		case ADMIN:
 			UpdateToken({ email: "admin@koompi.com", role: ADMIN });
