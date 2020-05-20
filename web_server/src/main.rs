@@ -1,5 +1,6 @@
 #[macro_use]
 extern crate juniper;
+extern crate listenfd;
 extern crate r2d2;
 extern crate r2d2_mongodb;
 extern crate serde_json;

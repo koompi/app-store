@@ -4,9 +4,9 @@ use mongodb::{bson, doc};
 
 use crate::db::Pool;
 
-use super::product::{Product, ProductInput};
+// use super::product::{Product, ProductInput};
 use super::user::{User, UserInput, UserModel};
-use mongodb::ordered::OrderedDocument;
+
 pub struct Context {
   pub dbpool: Pool,
 }
