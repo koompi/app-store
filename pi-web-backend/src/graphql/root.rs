@@ -1,6 +1,7 @@
 use async_graphql::{
     Context, EmptySubscription, FieldError, FieldResult, Schema, SimpleBroker, ID,
 };
+use bcrypt::{hash, verify, DEFAULT_COST};
 use bson;
 use futures::{lock::Mutex, stream::StreamExt};
 use mongodb::{
@@ -18,12 +19,19 @@ use crate::models::{
     role::{Role, RoleModel},
     user::{User, UserModel},
 };
+use jsonwebtoken::{encode, Algorithm, EncodingKey, Header};
+use serde::{Deserialize, Serialize};
 
 pub type BooksSchema = Schema<QueryRoot, MutationRoot, EmptySubscription>;
 
 #[derive(Debug)]
 pub struct DB {
     pub pool: Client,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct Token {
+    user_id: String,
 }
 
 pub type Storage = Arc<Mutex<Slab<User>>>;
@@ -556,12 +564,13 @@ impl MutationRoot {
     ) -> FieldResult<User> {
         let db = ctx.data_unchecked::<DB>().pool.clone();
         let collection = db.database("actix-juniper").collection("users");
-
+        // hash password
+        let hashed = hash(password, DEFAULT_COST).unwrap();
         // create doc object
         let new_user = doc! {
             "name": name.to_string(),
             "email": email.to_string(),
-            "password": password.to_string(),
+            "password": hashed.to_string(),
         };
 
         let mut new_user_id: String = String::from("");
@@ -906,6 +915,39 @@ impl MutationRoot {
         match role._id.to_string() == "".to_string() {
             true => Err(FieldError::from("role not found")),
             false => Ok(role.to_norm()),
+        }
+    }
+
+    async fn log_in(
+        &self,
+        ctx: &Context<'_>,
+        email: String,
+        password: String,
+    ) -> FieldResult<String> {
+        use dotenv::dotenv;
+        use std::env;
+        dotenv().ok();
+        // for (key, value) in env::vars() {
+        //     println!("{}: {}", key, value);
+        // }
+        match QueryRoot.user_by_email(ctx, email).await {
+            Ok(data) => match verify(password, &data.password).unwrap() {
+                true => {
+                    let SECRET = env::var("SECRET").unwrap();
+                    let option = Token {
+                        user_id: data.email,
+                    };
+                    let token = encode(
+                        &Header::default(),
+                        &option,
+                        &EncodingKey::from_secret(SECRET.as_ref()),
+                    )
+                    .unwrap();
+                    Ok(token.to_string())
+                }
+                false => Err(FieldError::from("NO")),
+            },
+            Err(e) => Err(FieldError::from("NO")),
         }
     }
 }

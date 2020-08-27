@@ -5,8 +5,6 @@
 pub mod database;
 pub mod graphql;
 pub mod models;
-// pub mod utils;
-// pub mod xml;
 
 use actix_cors::Cors;
 use actix_web::{guard, web, App, HttpResponse, HttpServer, Result};
