@@ -2,3 +2,4 @@ client_cli/target
 client_gui/target
 web_client/node_modules
 web_server/target
+pi-web-backend/target
