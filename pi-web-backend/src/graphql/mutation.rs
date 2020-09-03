@@ -403,9 +403,6 @@ impl MutationRoot {
         use dotenv::dotenv;
         use std::env;
         dotenv().ok();
-        // for (key, value) in env::vars() {
-        //     println!("{}: {}", key, value);
-        // }
         match QueryRoot.user_by_email(ctx, email).await {
             Ok(data) => match verify(password, &data.password).unwrap() {
                 true => {
@@ -424,7 +421,7 @@ impl MutationRoot {
                 }
                 false => Err(FieldError::from("NO")),
             },
-            Err(e) => Err(FieldError::from("NO")),
+            Err(e) => Err(FieldError::from(e)),
         }
     }
 }

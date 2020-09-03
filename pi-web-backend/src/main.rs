@@ -1,7 +1,7 @@
 #![allow(non_camel_case_types)]
 // #![allow(unused_imports)]
-#![allow(dead_code)]
-#![allow(unused_variables)]
+// #![allow(dead_code)]
+// #![allow(unused_variables)]
 pub mod database;
 pub mod graphql;
 pub mod models;
