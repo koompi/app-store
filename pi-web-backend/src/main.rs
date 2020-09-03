@@ -1,5 +1,5 @@
 #![allow(non_camel_case_types)]
-#![allow(unused_imports)]
+// #![allow(unused_imports)]
 #![allow(dead_code)]
 #![allow(unused_variables)]
 pub mod database;
@@ -15,7 +15,11 @@ use async_graphql::{
 use async_graphql_actix_web::{GQLRequest, GQLResponse};
 use database::db_pool;
 use graphql::root::DB;
-use graphql::root::{BooksSchema, MutationRoot, QueryRoot, Storage};
+use graphql::{
+    mutation::MutationRoot,
+    query::QueryRoot,
+    root::{BooksSchema, Storage},
+};
 use listenfd::ListenFd;
 use mongodb::Client;
 

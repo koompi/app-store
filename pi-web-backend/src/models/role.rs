@@ -1,8 +1,8 @@
 use async_graphql::ID;
 use bson::{self, oid::ObjectId};
 use serde_derive::{Deserialize, Serialize};
-use syn::Fields;
-use uuid::Uuid;
+// use syn::Fields;
+// use uuid::Uuid;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Role {
