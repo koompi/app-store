@@ -5,6 +5,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "../components/home";
 import Categories from "../components/categories";
 import AppDetail from "../components/app_detail";
+import SignUp from "../components/signup";
+import SignIn from "../components/signin";
 
 const GuestRoutes = () => {
 	return (
@@ -12,6 +14,8 @@ const GuestRoutes = () => {
 			<Route exact={true} path="/" component={Home} />
 			<Route exact={true} path="/apps/:name" component={AppDetail} />
 			<Route exact={true} path="/categories" component={Categories} />
+			<Route exact={true} path="/signup" component={SignUp} />
+			<Route exact={true} path="/signin" component={SignIn} />
 			<Route render={() => <Redirect to="/" />} />
 		</Switch>
 	);

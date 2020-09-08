@@ -10,26 +10,26 @@ import { ApolloProvider } from "@apollo/client";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { createHttpLink } from "apollo-link-http";
 const link = createHttpLink({
-  uri: "http://192.168.1.120:3300/",
-  credentials: "same-origin",
-  //   useGETForQueries: false,
-  //   fetchOptions: {
-  //     mode: "no-cors",
-  //   },
+	uri: "http://localhost:3300/",
+	credentials: "same-origin",
+	//   useGETForQueries: false,
+	//   fetchOptions: {
+	//     mode: "no-cors",
+	//   },
 });
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: link,
+	cache: new InMemoryCache(),
+	link: link,
 });
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById("root")
+	<React.StrictMode>
+		<BrowserRouter>
+			<ApolloProvider client={client}>
+				<App />
+			</ApolloProvider>
+		</BrowserRouter>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change

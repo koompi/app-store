@@ -11,6 +11,7 @@ pub struct User {
     pub name: String,
     pub email: String,
     pub password: String,
+    pub status: bool,
 }
 
 // Mongo Model
@@ -20,6 +21,7 @@ pub struct UserModel {
     pub name: String,
     pub email: String,
     pub password: String,
+    pub status: bool,
 }
 
 // Base implemenation
@@ -30,18 +32,9 @@ impl User {
             name: String::from(""),
             email: String::from(""),
             password: String::from(""),
+            status: false,
         }
     }
-
-    // pub fn to_mongo_doc(&self) -> UserModel {
-    //     let converted_id = bson::oid::ObjectId::with_string(&self.id.to_string()).unwrap();
-    //     UserModel {
-    //         _id: converted_id,
-    //         name: self.name.to_owned(),
-    //         email: self.email.to_owned(),
-    //         password: self.password.to_owned(),
-    //     }
-    // }
 }
 
 // Mongo implementation
@@ -53,6 +46,7 @@ impl UserModel {
             name: String::from(""),
             email: String::from(""),
             password: String::from(""),
+            status: false,
         }
     }
     pub fn to_norm(&self) -> User {
@@ -61,6 +55,7 @@ impl UserModel {
             name: self.name.to_owned(),
             email: self.email.to_owned(),
             password: self.password.to_owned(),
+            status: self.status.to_owned(),
         }
     }
 }
@@ -79,5 +74,8 @@ impl User {
     }
     async fn password(&self) -> &str {
         &self.password
+    }
+    async fn status(&self) -> &bool {
+        &self.status
     }
 }

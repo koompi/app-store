@@ -1,4 +1,7 @@
-use async_graphql::{Context, FieldError, FieldResult};
+use async_graphql::{
+    validators::{Email, StringMinLength},
+    Context, FieldError, FieldResult,
+};
 use bcrypt::{hash, verify, DEFAULT_COST};
 use bson;
 use futures::lock::Mutex;
@@ -22,7 +25,9 @@ use super::root::DB;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Token {
-    user_id: String,
+    name: String,
+    email: String,
+    role: String,
 }
 
 pub type Storage = Arc<Mutex<Slab<User>>>;
@@ -31,36 +36,44 @@ pub struct MutationRoot;
 
 #[async_graphql::Object]
 impl MutationRoot {
-    async fn create_user(
+    async fn signup(
         &self,
         ctx: &Context<'_>,
-        name: String,
-        email: String,
-        password: String,
+        #[arg(validator(StringMinLength(length = "5")))] name: String,
+        #[arg(validator(Email))] email: String,
+        #[arg(validator(StringMinLength(length = "6")))] password: String,
     ) -> FieldResult<User> {
         let db = ctx.data_unchecked::<DB>().pool.clone();
         let collection = db.database("actix-juniper").collection("users");
-        // hash password
-        let hashed = hash(password, DEFAULT_COST).unwrap();
-        // create doc object
-        let new_user = doc! {
-            "name": name.to_string(),
-            "email": email.to_string(),
-            "password": hashed.to_string(),
-        };
+        // check if email existed
+        let existed = QueryRoot.user_by_email(ctx, email.clone()).await;
+        match existed {
+            Err(_) => {
+                // hash password
+                let hashed = hash(password, DEFAULT_COST).unwrap();
+                // create doc object
+                let new_user = doc! {
+                    "name": name.to_string(),
+                    "email": email.to_string(),
+                    "password": hashed.to_string(),
+                    "status": false,
+                };
+                #[allow(unused_assignments)]
+                let mut new_user_id: String = String::from("");
 
-        let mut new_user_id: String = String::from("");
-
-        match collection.insert_one(new_user, None).await {
-            Ok(data) => {
-                let result = data.inserted_id.as_object_id();
-                new_user_id = result.unwrap().to_string();
+                match collection.insert_one(new_user, None).await {
+                    Ok(data) => {
+                        let result = data.inserted_id.as_object_id();
+                        new_user_id = result.unwrap().to_string();
+                    }
+                    Err(_e) => {
+                        return Err(FieldError::from("Failed to create account."));
+                    }
+                }
+                QueryRoot.user_by_id(ctx, new_user_id).await
             }
-            Err(e) => {
-                eprintln!("{:?}", e);
-            }
+            Ok(_) => Err(FieldError::from("Email already in used.")),
         }
-        QueryRoot.user_by_id(ctx, new_user_id).await
     }
 
     async fn delete_user(&self, ctx: &Context<'_>, id: String) -> FieldResult<String> {
@@ -394,7 +407,7 @@ impl MutationRoot {
         }
     }
 
-    async fn log_in(
+    async fn signin(
         &self,
         ctx: &Context<'_>,
         email: String,
@@ -409,7 +422,9 @@ impl MutationRoot {
                     #[allow(non_snake_case)]
                     let SECRET = env::var("SECRET").unwrap();
                     let option = Token {
-                        user_id: data.email,
+                        name: data.name,
+                        email: data.email,
+                        role: "USER".to_string(),
                     };
                     let token = encode(
                         &Header::default(),

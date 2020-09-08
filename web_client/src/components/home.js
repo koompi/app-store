@@ -21,69 +21,6 @@ const APPS = gql`
 	}
 `;
 
-// function Books() {
-// 	const { loading, error, data } = useQuery(APPS);
-
-// 	if (loading) return <p>Loading...</p>;
-// 	if (error) return <p>Error :(</p>;
-
-// 	return data.books.map(({ id, pkgname, icons }) => (
-// 		<Col span={4}>
-// 			<Link to={id}>
-// 				<Card hoverable>
-// 					<center style={{ fontSize: "12px" }}>
-// 						<div
-// 							style={{
-// 								width: "84px",
-// 								height: "84px",
-// 								backgroundImage: `url(${
-// 									icons.length > 0
-// 										? "/icons/archlinux-arch-community/128x128/" + icons[0].name
-// 										: "/icons/archlinux-arch-community/128x128/toxic_utilities-terminal.png"
-// 								})`,
-// 								// backgroundImage: "url(/icons/archlinux-arch-community/128x128/toxic_utilities-terminal.png)",
-// 								backgroundSize: "contain",
-// 								backgroundRepeat: "no-repeat",
-// 								backgroundPosition: "center",
-// 								margin: "12px",
-// 							}}
-// 						></div>
-// 						<Title style={{ fontSize: "14px", margin: "25px 0 0 0" }}>
-// 							{pkgname}
-// 						</Title>
-// 						<Col style={{ margin: 0 }}>
-// 							<Rate allowHalf defaultValue="4.5" />
-// 						</Col>
-// 					</center>
-
-// 					<Row
-// 						gutter={[0, 0]}
-// 						style={{
-// 							// padding: "20px 0px",
-// 							height: "30px",
-// 							lineHeight: "30px",
-// 						}}
-// 					>
-// 						<Col span={16} style={{ textAlign: "left", overflow: "hidden" }}>
-// 							<Space>
-// 								<Avatar src="app.owner_logo" shape="square" size="small" />
-// 								<Text style={{ fontSize: "12px" }}>"app.owner"</Text>
-// 							</Space>
-// 						</Col>
-
-// 						<Col span={8} style={{ textAlign: "right" }}>
-// 							<Space>
-// 								<Text style={{ fontSize: "12px" }}>"app.downloadCount"</Text>
-// 								<DownloadOutlined />
-// 							</Space>
-// 						</Col>
-// 					</Row>
-// 				</Card>
-// 			</Link>
-// 		</Col>
-// 	));
-// }
-
 const data = [
 	{
 		name: "Visual Studio Code",

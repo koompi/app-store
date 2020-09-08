@@ -1,3 +1,5 @@
+import { decode } from "jsonwebtoken";
+
 export const USER = "USER";
 export const DEVELOPER = "DEVELOPER";
 export const ADMIN = "ADMIN";
@@ -8,20 +10,29 @@ const UpdateToken = async (data) => {
 };
 
 export const auth_reducer = (state, action) => {
-	switch (action.type) {
-		case USER:
-			UpdateToken({ email: "user@koompi.com", role: USER });
-			return { email: "user@koompi.com", role: USER };
-
-		case DEVELOPER:
-			UpdateToken({ email: "maintaine@koompi.com", role: DEVELOPER });
-			return { email: "DEVELOPER@koompi.com", role: DEVELOPER };
-
-		case ADMIN:
-			UpdateToken({ email: "admin@koompi.com", role: ADMIN });
-			return { email: "admin@koompi.com", role: ADMIN };
-		default:
-			UpdateToken({ email: "guest@koompi.com", role: GUEST });
-			return { email: "guest@koompi.com", role: GUEST };
+	if (action.target === "auth") {
+		switch (action.type) {
+			case "signin":
+				let token = window.localStorage.getItem("token");
+				if (token) {
+					let data = decode(token);
+					console.log(data);
+					switch (data.role) {
+						case "USER":
+							return data;
+						case "DEVELOPER":
+							return data;
+						case "ADMIN":
+							return data;
+						default:
+							return { email: "", role: GUEST };
+					}
+				}
+			case "signout":
+				window.localStorage.removeItem("token");
+				return { email: "", role: GUEST };
+			default:
+				break;
+		}
 	}
 };

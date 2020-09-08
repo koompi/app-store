@@ -37,11 +37,7 @@ function App() {
 						<center>
 							<img
 								className="koompi-logo"
-								src={
-									collapsed
-										? KoompiIconBlack
-										: KoompiLogoBlack
-								}
+								src={collapsed ? KoompiIconBlack : KoompiLogoBlack}
 								alt="logo"
 							/>
 						</center>
@@ -50,11 +46,7 @@ function App() {
 						<AppMenu />
 					</Sider>
 					<Layout
-						className={
-							collapsed
-								? "site-layout expand"
-								: "site-layout shrink"
-						}
+						className={collapsed ? "site-layout expand" : "site-layout shrink"}
 					>
 						<Content
 							style={{
@@ -77,18 +69,12 @@ function App() {
 						zIndex: 1000,
 					}}
 				>
-					<Button
-						type="primary"
-						onClick={() => toggleAuthModal(true)}
-					>
+					<Button type="primary" onClick={() => toggleAuthModal(true)}>
 						Authenticator
 					</Button>
 				</div>
 
-				<AuthBox
-					authModal={authModal}
-					toggleAuthModal={toggleAuthModal}
-				/>
+				<AuthBox authModal={authModal} toggleAuthModal={toggleAuthModal} />
 			</div>
 		</AuthContextProvider>
 	);

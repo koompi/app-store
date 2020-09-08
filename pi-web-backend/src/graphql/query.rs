@@ -145,7 +145,7 @@ impl QueryRoot {
         }
 
         // return data
-        match user._id.to_string() == "".to_string() {
+        match user.email.to_string().is_empty() {
             true => Err(FieldError::from("User not found")),
             false => Ok(user.to_norm()),
         }

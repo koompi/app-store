@@ -17,21 +17,13 @@ const AuthBox = (props) => {
 			onCancel={() => toggleAuthModal(false)}
 		>
 			<p>
-				<Button onClick={() => dispatch({ type: GUEST })}>
+				<Button onClick={() => dispatch({ type: "signout", target: "auth" })}>
 					{GUEST}
 				</Button>
 			</p>
 			<p>
-				<Button onClick={() => dispatch({ type: USER })}>{USER}</Button>
-			</p>
-			<p>
-				<Button onClick={() => dispatch({ type: DEVELOPER })}>
-					{DEVELOPER}
-				</Button>
-			</p>
-			<p>
-				<Button onClick={() => dispatch({ type: ADMIN })}>
-					{ADMIN}
+				<Button onClick={() => dispatch({ type: "signin", target: "auth" })}>
+					{USER}
 				</Button>
 			</p>
 		</Modal>
