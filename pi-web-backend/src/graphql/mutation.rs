@@ -50,7 +50,7 @@ impl MutationRoot {
         match existed {
             Err(_) => {
                 // hash password
-                let hashed = hash(password, DEFAULT_COST).unwrap();
+                let hashed = hash(password, 6).unwrap();
                 // create doc object
                 let new_user = doc! {
                     "name": name.to_string(),
@@ -75,7 +75,53 @@ impl MutationRoot {
             Ok(_) => Err(FieldError::from("Email already in used.")),
         }
     }
-
+    async fn change_password(
+        &self,
+        ctx: &Context<'_>,
+        email: String,
+        current_p: String,
+        new_p: String,
+        confirm_p: String,
+    ) -> FieldResult<String> {
+        let db = ctx.data_unchecked::<DB>().pool.clone();
+        let collection = db.database("actix-juniper").collection("users");
+        if new_p != confirm_p {
+            Err(FieldError::from("Confirm password mismatched!"))
+        } else {
+            // use dotenv::dotenv;
+            // #[allow(unused_imports)]
+            // use std::env;
+            // dotenv().ok();
+            match QueryRoot.user_by_email(ctx, email).await {
+                Ok(mut data) => match verify(current_p, &data.password).unwrap() {
+                    true => {
+                        data.password = hash(new_p, 6).unwrap();
+                        let converted_id = match bson::oid::ObjectId::with_string(&data.id) {
+                            Ok(data) => data,
+                            Err(_) => return Err(FieldError::from("Not a valid id")),
+                        };
+                        match collection
+                            .update_one(doc! { "_id": converted_id }, data.to_bson_doc(), None)
+                            .await
+                        {
+                            Ok(_updated_data) => {
+                                // let result = data.inserted_id.as_object_id();
+                                // new_user_id = result.unwrap().to_string();
+                                // Ok("Ok")
+                                // println!("{:#?}", updated_data);
+                                Ok(String::from("Password updated successfully."))
+                            }
+                            Err(_e) => {
+                                return Err(FieldError::from("Failed to create account."));
+                            }
+                        }
+                    }
+                    false => Err(FieldError::from("Current password is incorrect.")),
+                },
+                Err(e) => Err(FieldError::from(e)),
+            }
+        }
+    }
     async fn delete_user(&self, ctx: &Context<'_>, id: String) -> FieldResult<String> {
         let db = ctx.data_unchecked::<DB>().pool.clone();
         let collection = db.database("actix-juniper").collection("users");

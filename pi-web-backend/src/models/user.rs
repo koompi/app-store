@@ -1,5 +1,5 @@
 use async_graphql::ID;
-use bson::{self, oid::ObjectId};
+use bson::{self, doc, oid::ObjectId, Document};
 use serde_derive::{Deserialize, Serialize};
 // use syn::Fields;
 // use uuid::Uuid;
@@ -33,6 +33,16 @@ impl User {
             email: String::from(""),
             password: String::from(""),
             status: false,
+        }
+    }
+    pub fn to_bson_doc(&self) -> Document {
+        let converted_id = bson::oid::ObjectId::with_string(&self.id.to_string()).unwrap();
+        doc! {
+            "_id": converted_id,
+            "name": self.name.to_owned(),
+            "email": self.email.to_owned(),
+            "password": self.password.to_owned(),
+            "status": self.status.to_owned(),
         }
     }
 }
