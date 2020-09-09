@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Typography, Card, Checkbox } from "antd";
+import { Row, Col, Typography, Card, Checkbox, Divider } from "antd";
 
 const { Title } = Typography;
 
@@ -8,7 +8,7 @@ const Security = () => {
 		<>
 			<Row>
 				<Col
-					span={24}
+					span={14}
 					style={{
 						minHeight: "80vh",
 						maxHeight: "auto",
@@ -16,7 +16,8 @@ const Security = () => {
 						padding: "20px 0px",
 					}}
 				>
-					<Title level={3}>Security</Title>
+					<Title level={3}>SECURITY</Title>
+					<Divider />
 					<Card
 						size="small"
 						title="Multiple factor authentication"

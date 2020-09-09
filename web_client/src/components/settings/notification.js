@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Typography, Checkbox } from "antd";
+import { Row, Col, Typography, Checkbox, Divider } from "antd";
 
 const { Title } = Typography;
 
@@ -8,14 +8,15 @@ const Notification = () => {
 		<>
 			<Row>
 				<Col
-					span={24}
+					span={14}
 					style={{
 						minHeight: "80vh",
 						backgroundColor: "#fff",
 						paddingTop: "20px",
 					}}
 				>
-					<Title level={3}>Notification</Title>
+					<Title level={3}>NOTIFICATION</Title>
+					<Divider />
 					<p style={{ marginBottom: "20px" }}>
 						<Checkbox>New login</Checkbox>
 					</p>

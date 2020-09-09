@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Typography, Button, Card } from "antd";
+import { Row, Col, Typography, Button, Card, Divider } from "antd";
 import { KeyOutlined, RestOutlined, EditOutlined } from "@ant-design/icons";
 const { Title, Text } = Typography;
 const KeysAndDevices = () => {
@@ -7,14 +7,15 @@ const KeysAndDevices = () => {
 		<>
 			<Row>
 				<Col
-					span={24}
+					span={14}
 					style={{
 						minHeight: "80vh",
 						backgroundColor: "#fff",
 						paddingTop: "20px",
 					}}
 				>
-					<Title level={3}>Keys And Devices</Title>
+					<Title level={3}>KEY & DEVICES</Title>
+					<Divider />
 					<Card
 						size="small"
 						style={{ width: "95%" }}

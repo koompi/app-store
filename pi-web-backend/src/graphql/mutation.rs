@@ -1,8 +1,8 @@
 use async_graphql::{
     validators::{Email, StringMinLength},
-    Context, FieldError, FieldResult,
+    Context, FieldError, FieldResult, ID,
 };
-use bcrypt::{hash, verify, DEFAULT_COST};
+use bcrypt::{hash, verify};
 use bson;
 use futures::lock::Mutex;
 use mongodb::bson::{doc, Bson};
@@ -25,7 +25,7 @@ use super::root::DB;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Token {
-    name: String,
+    id: String,
     email: String,
     role: String,
 }
@@ -39,7 +39,6 @@ impl MutationRoot {
     async fn signup(
         &self,
         ctx: &Context<'_>,
-        #[arg(validator(StringMinLength(length = "5")))] name: String,
         #[arg(validator(Email))] email: String,
         #[arg(validator(StringMinLength(length = "6")))] password: String,
     ) -> FieldResult<User> {
@@ -53,7 +52,6 @@ impl MutationRoot {
                 let hashed = hash(password, 6).unwrap();
                 // create doc object
                 let new_user = doc! {
-                    "name": name.to_string(),
                     "email": email.to_string(),
                     "password": hashed.to_string(),
                     "status": false,
@@ -88,10 +86,6 @@ impl MutationRoot {
         if new_p != confirm_p {
             Err(FieldError::from("Confirm password mismatched!"))
         } else {
-            // use dotenv::dotenv;
-            // #[allow(unused_imports)]
-            // use std::env;
-            // dotenv().ok();
             match QueryRoot.user_by_email(ctx, email).await {
                 Ok(mut data) => match verify(current_p, &data.password).unwrap() {
                     true => {
@@ -104,16 +98,8 @@ impl MutationRoot {
                             .update_one(doc! { "_id": converted_id }, data.to_bson_doc(), None)
                             .await
                         {
-                            Ok(_updated_data) => {
-                                // let result = data.inserted_id.as_object_id();
-                                // new_user_id = result.unwrap().to_string();
-                                // Ok("Ok")
-                                // println!("{:#?}", updated_data);
-                                Ok(String::from("Password updated successfully."))
-                            }
-                            Err(_e) => {
-                                return Err(FieldError::from("Failed to create account."));
-                            }
+                            Ok(_updated_data) => Ok(String::from("Password updated successfully.")),
+                            Err(_e) => Err(FieldError::from("Failed to changed password.")),
                         }
                     }
                     false => Err(FieldError::from("Current password is incorrect.")),
@@ -309,31 +295,43 @@ impl MutationRoot {
         }
     }
     // ========================== PROFILE =============================
+    // pub id: ID,
+    // pub name: String,
+    // pub bio_desc: String,
+    // pub address: String,
+    // pub avatar: String,
+    // pub owner_id: String,
     async fn create_profile(
         &self,
         ctx: &Context<'_>,
-        first_name: String,
-        last_name: String,
-        date_of_birth: String,
-        gender: String,
+        name: String,
+        bio_desc: String,
         address: String,
         avatar: String,
-        cover: String,
         owner_id: String,
+        website: String,
+        company: String,
     ) -> FieldResult<Profile> {
         let db = ctx.data_unchecked::<DB>().pool.clone();
         let collection = db.database("actix-juniper").collection("profiles");
 
         // create doc object
         let new_profile = doc! {
-            "first_name": first_name.to_owned(),
-            "last_name": last_name.to_owned(),
-            "date_of_birth": date_of_birth.to_owned(),
-            "gender": gender.to_owned(),
+            // "first_name": first_name.to_owned(),
+            // "last_name": last_name.to_owned(),
+            // "date_of_birth": date_of_birth.to_owned(),
+            // "gender": gender.to_owned(),
+            // "address": address.to_owned(),
+            // "avatar": avatar.to_owned(),
+            // "cover": cover.to_owned(),
+            // "owner_id": owner_id.to_owned(),
+            "name": name.to_owned(),
+            "bio_desc": bio_desc.to_owned(),
             "address": address.to_owned(),
             "avatar": avatar.to_owned(),
-            "cover": cover.to_owned(),
             "owner_id": owner_id.to_owned(),
+            "website": website.to_owned(),
+            "company": company.to_owned(),
         };
 
         let mut new_profile_id: String = String::from("");
@@ -366,6 +364,43 @@ impl MutationRoot {
         match cursor.deleted_count {
             1 => Ok(String::from("Profile deleted")),
             _ => Err(FieldError::from("Profile not delete")),
+        }
+    }
+    async fn updateProfile(
+        &self,
+        ctx: &Context<'_>,
+        id: String,
+        name: String,
+        bio_desc: String,
+        address: String,
+        avatar: String,
+        owner_id: String,
+        website: String,
+        company: String,
+    ) -> FieldResult<Profile> {
+        let db = ctx.data_unchecked::<DB>().pool.clone();
+        let collection = db.database("actix-juniper").collection("profiles");
+
+        let converted_id = match bson::oid::ObjectId::with_string(&id) {
+            Ok(data) => data,
+            Err(_) => return Err(FieldError::from("Not a valid id")),
+        };
+        let data: Profile = Profile {
+            id: ID::from(&id.to_string()),
+            name,
+            bio_desc,
+            address,
+            avatar,
+            owner_id,
+            website,
+            company,
+        };
+        match collection
+            .update_one(doc! { "_id": converted_id }, data.to_bson_doc(), None)
+            .await
+        {
+            Ok(_updated_data) => QueryRoot.profile_by_id(ctx, id).await,
+            Err(_e) => Err(FieldError::from("Failed to changed password.")),
         }
     }
     // ========================== ROLE =============================
@@ -468,7 +503,7 @@ impl MutationRoot {
                     #[allow(non_snake_case)]
                     let SECRET = env::var("SECRET").unwrap();
                     let option = Token {
-                        name: data.name,
+                        id: data.id.to_string(),
                         email: data.email,
                         role: "USER".to_string(),
                     };

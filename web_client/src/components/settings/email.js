@@ -1,5 +1,14 @@
 import React from "react";
-import { Row, Col, Input, Button, Typography, Card, Checkbox } from "antd";
+import {
+	Row,
+	Col,
+	Input,
+	Button,
+	Typography,
+	Card,
+	Checkbox,
+	Divider,
+} from "antd";
 import { RestOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
@@ -9,14 +18,15 @@ const Email = () => {
 		<>
 			<Row>
 				<Col
-					span={24}
+					span={14}
 					style={{
 						minHeight: "80vh",
 						backgroundColor: "#fff",
 						paddingTop: "20px",
 					}}
 				>
-					<Title level={3}>Emails</Title>
+					<Title level={3}>EMAILS</Title>
+					<Divider />
 					<Card
 						size="small"
 						title="phalbrilliant@gmail.com"

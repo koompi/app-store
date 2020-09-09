@@ -8,7 +8,6 @@ use serde_derive::{Deserialize, Serialize};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct User {
     pub id: ID,
-    pub name: String,
     pub email: String,
     pub password: String,
     pub status: bool,
@@ -18,7 +17,6 @@ pub struct User {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UserModel {
     pub _id: ObjectId,
-    pub name: String,
     pub email: String,
     pub password: String,
     pub status: bool,
@@ -29,7 +27,6 @@ impl User {
     pub fn new() -> Self {
         User {
             id: ID::from(""),
-            name: String::from(""),
             email: String::from(""),
             password: String::from(""),
             status: false,
@@ -39,7 +36,6 @@ impl User {
         let converted_id = bson::oid::ObjectId::with_string(&self.id.to_string()).unwrap();
         doc! {
             "_id": converted_id,
-            "name": self.name.to_owned(),
             "email": self.email.to_owned(),
             "password": self.password.to_owned(),
             "status": self.status.to_owned(),
@@ -53,7 +49,6 @@ impl UserModel {
         let converted_id = bson::oid::ObjectId::new();
         UserModel {
             _id: converted_id,
-            name: String::from(""),
             email: String::from(""),
             password: String::from(""),
             status: false,
@@ -62,7 +57,6 @@ impl UserModel {
     pub fn to_norm(&self) -> User {
         User {
             id: ID::from(self._id.to_string()),
-            name: self.name.to_owned(),
             email: self.email.to_owned(),
             password: self.password.to_owned(),
             status: self.status.to_owned(),
@@ -75,9 +69,6 @@ impl UserModel {
 impl User {
     async fn id(&self) -> &str {
         &self.id
-    }
-    async fn name(&self) -> &str {
-        &self.name
     }
     async fn email(&self) -> &str {
         &self.email

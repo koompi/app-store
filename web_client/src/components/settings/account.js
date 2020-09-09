@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { useMutation, gql } from "@apollo/client";
 import {
 	Row,
 	Col,
@@ -9,25 +10,52 @@ import {
 	Typography,
 	Divider,
 	Modal,
+	message,
 } from "antd";
 
 const { Title } = Typography;
 
 const layout = {
 	labelCol: { span: 4 },
-	wrapperCol: { span: 19 },
+	wrapperCol: { span: 10 },
 };
 
+const ChangePasswordMuation = gql`
+	mutation changePassword(
+		$email: String!
+		$currentP: String!
+		$newP: String!
+		$confirmP: String!
+	) {
+		changePassword(
+			email: $email
+			currentP: $currentP
+			newP: $newP
+			confirmP: $confirmP
+		)
+	}
+`;
+
 const PasswordBox = (props) => {
+	const [changePassword] = useMutation(ChangePasswordMuation);
+	const [form] = Form.useForm();
 	const { user, dispatch } = useContext(AuthContext);
-	const [data, setData] = useState({
-		current: "",
-		new_password: "",
-		confirm: "",
-	});
+
 	const { authModal, togglePasswordModal } = props;
 	const onFinish = (values) => {
-		setData(values);
+		changePassword({
+			variables: { email: user.email, ...values },
+		})
+			.then(async (res) => {
+				form.resetFields();
+				togglePasswordModal(false);
+				await message.success(`${res.data.changePassword}`);
+			})
+			.catch(async (err) => {
+				console.log(err);
+				await message.error(`${err}`);
+				form.resetFields();
+			});
 	};
 	const layout = {
 		labelCol: { span: 8 },
@@ -46,31 +74,41 @@ const PasswordBox = (props) => {
 				name="nest-messages"
 				onFinish={onFinish}
 				size="large"
-				initialValues={data}
+				// initialValues={data}
 			>
-				<Form.Item name="current" label="Current Password">
-					<Input
-						type="password"
-						onChange={(e) => setData({ ...data, current: e.target.value })}
-					/>
+				<Form.Item name="currentP" label="Current Password">
+					<Input.Password />
 				</Form.Item>
-				<Form.Item name="new_password" label="New Password">
-					<Input
-						type="password"
-						onChange={(e) => setData({ ...data, new_password: e.target.value })}
-					/>
+				<Form.Item name="newP" label="New Password">
+					<Input.Password />
 				</Form.Item>
 				<Form.Item
-					name="confirm"
+					name="confirmP"
 					label="Confirm Password"
-					extra={
-						data.confirm === data.new_password ? "" : "Password mismatched!"
-					}
+					dependencies={["newP"]}
+					rules={[
+						{
+							required: true,
+							message: "Please confirm your password!",
+						},
+						({ getFieldValue }) => ({
+							validator(rule, value) {
+								if (!value || getFieldValue("newP") === value) {
+									return Promise.resolve();
+								}
+								return Promise.reject(
+									"The two passwords that you entered do not match!"
+								);
+							},
+						}),
+					]}
 				>
-					<Input
-						type="password"
-						onChange={(e) => setData({ ...data, confirm: e.target.value })}
-					/>
+					<Input.Password />
+				</Form.Item>
+				<Form.Item>
+					<Button type="primary" htmlType="submit">
+						Submit
+					</Button>
 				</Form.Item>
 			</Form>
 		</Modal>
@@ -107,14 +145,15 @@ const Account = () => {
 						size="large"
 						initialValues={{ email: user.email, name: user.name }}
 					>
-						<Title level={3}>Login information</Title>
-						<Form.Item
+						<Title level={3}>LOGIN INFORMATION</Title>
+						<Divider />
+						{/* <Form.Item
 							name="name"
 							label="User Name"
 							extra={"The short name used for loggin in."}
 						>
 							<Input disabled={true} />
-						</Form.Item>
+						</Form.Item> */}
 						<Form.Item
 							name="email"
 							label="Primary Email"
@@ -137,7 +176,7 @@ const Account = () => {
 							</Button>
 						</Form.Item>
 						<Divider />
-						<Title level={3}>Export account data</Title>
+						{/* <Title level={3}>Export account data</Title>
 						<Form.Item
 							extra={
 								"The export process will take 24 hours to prepare, so you export now, you can download your data tomorrow."
@@ -162,7 +201,7 @@ const Account = () => {
 							}
 						>
 							<Button type="danger">Delete Account</Button>
-						</Form.Item>
+						</Form.Item> */}
 					</Form>
 				</Col>
 			</Row>

@@ -12,6 +12,7 @@ import RouteManager from "./routes/routes";
 import AppMenu from "./components/menu/menu";
 import AuthContextProvider from "./context/AuthContext";
 import AuthBox from "./utils/authBox";
+import Grid from "antd/lib/card/Grid";
 // VARS
 
 const { Content, Footer, Sider } = Layout;
@@ -67,10 +68,34 @@ function App() {
 						right: 0,
 						padding: "10px",
 						zIndex: 1000,
+						display: "grid",
+						gridTemplateColumns: "1fr 1fr 1fr",
+						gridGap: "10px",
 					}}
 				>
-					<Button type="primary" onClick={() => toggleAuthModal(true)}>
+					{/* <Button type="primary" onClick={() => toggleAuthModal(true)}>
 						Authenticator
+					</Button> */}
+					<Button
+						type="primary"
+						onClick={() => window.location.replace("/signin")}
+					>
+						SIGN IN
+					</Button>
+					<Button
+						type="primary"
+						onClick={() => window.location.replace("/signup")}
+					>
+						SIGN UP
+					</Button>
+					<Button
+						type="primary"
+						onClick={() => {
+							window.localStorage.removeItem("token");
+							window.location.replace("/signin");
+						}}
+					>
+						SIGN OUT
 					</Button>
 				</div>
 
