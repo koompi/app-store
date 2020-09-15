@@ -36,6 +36,7 @@ pub struct MutationRoot;
 
 #[async_graphql::Object]
 impl MutationRoot {
+    // ======================== User Account ====================================
     async fn signup(
         &self,
         ctx: &Context<'_>,
@@ -73,6 +74,38 @@ impl MutationRoot {
             Ok(_) => Err(FieldError::from("Email already in used.")),
         }
     }
+    async fn signin(
+        &self,
+        ctx: &Context<'_>,
+        email: String,
+        password: String,
+    ) -> FieldResult<String> {
+        use dotenv::dotenv;
+        use std::env;
+        dotenv().ok();
+        match QueryRoot.user_by_email(ctx, email).await {
+            Ok(data) => match verify(password, &data.password).unwrap() {
+                true => {
+                    #[allow(non_snake_case)]
+                    let SECRET = env::var("SECRET").unwrap();
+                    let option = Token {
+                        id: data.id.to_string(),
+                        email: data.email,
+                        role: "USER".to_string(),
+                    };
+                    let token = encode(
+                        &Header::default(),
+                        &option,
+                        &EncodingKey::from_secret(SECRET.as_ref()),
+                    )
+                    .unwrap();
+                    Ok(token.to_string())
+                }
+                false => Err(FieldError::from("NO")),
+            },
+            Err(e) => Err(FieldError::from(e)),
+        }
+    }
     async fn change_password(
         &self,
         ctx: &Context<'_>,
@@ -105,6 +138,45 @@ impl MutationRoot {
                     false => Err(FieldError::from("Current password is incorrect.")),
                 },
                 Err(e) => Err(FieldError::from(e)),
+            }
+        }
+    }
+
+    async fn request_reset_password(&self, ctx: &Context<'_>, id: String) -> FieldResult<String> {
+        Ok(String::from(id))
+    }
+
+    async fn reset_password(
+        &self,
+        ctx: &Context<'_>,
+        email: String,
+        new_p: String,
+        confirm_p: String,
+    ) -> FieldResult<String> {
+        let db = ctx.data_unchecked::<DB>().pool.clone();
+        let collection = db.database("actix-juniper").collection("users");
+
+        if new_p != confirm_p {
+            Err(FieldError::from("Confirm password mismatched!"))
+        } else {
+            match QueryRoot.user_by_email(ctx, email).await {
+                Ok(mut data) => {
+                    data.password = hash(new_p, 6).unwrap();
+
+                    let converted_id = match bson::oid::ObjectId::with_string(&data.id) {
+                        Ok(data) => data,
+                        Err(_) => return Err(FieldError::from("Not a valid id")),
+                    };
+
+                    match collection
+                        .update_one(doc! { "_id": converted_id }, data.to_bson_doc(), None)
+                        .await
+                    {
+                        Ok(_updated_data) => Ok(String::from("Password updated successfully.")),
+                        Err(_) => Err(FieldError::from("Failed to changed password.")),
+                    }
+                }
+                Err(_) => Err(FieldError::from("Invalid email address.")),
             }
         }
     }
@@ -366,7 +438,7 @@ impl MutationRoot {
             _ => Err(FieldError::from("Profile not delete")),
         }
     }
-    async fn updateProfile(
+    async fn update_profile(
         &self,
         ctx: &Context<'_>,
         id: String,
@@ -485,39 +557,6 @@ impl MutationRoot {
         match role._id.to_string() == "".to_string() {
             true => Err(FieldError::from("role not found")),
             false => Ok(role.to_norm()),
-        }
-    }
-
-    async fn signin(
-        &self,
-        ctx: &Context<'_>,
-        email: String,
-        password: String,
-    ) -> FieldResult<String> {
-        use dotenv::dotenv;
-        use std::env;
-        dotenv().ok();
-        match QueryRoot.user_by_email(ctx, email).await {
-            Ok(data) => match verify(password, &data.password).unwrap() {
-                true => {
-                    #[allow(non_snake_case)]
-                    let SECRET = env::var("SECRET").unwrap();
-                    let option = Token {
-                        id: data.id.to_string(),
-                        email: data.email,
-                        role: "USER".to_string(),
-                    };
-                    let token = encode(
-                        &Header::default(),
-                        &option,
-                        &EncodingKey::from_secret(SECRET.as_ref()),
-                    )
-                    .unwrap();
-                    Ok(token.to_string())
-                }
-                false => Err(FieldError::from("NO")),
-            },
-            Err(e) => Err(FieldError::from(e)),
         }
     }
 }

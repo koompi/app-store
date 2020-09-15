@@ -28,3 +28,7 @@ syn = "1.0.39"
 bcrypt = "0.8.2"
 dotenv = "0.15.0"
 jsonwebtoken = "7.2.0"
+# mail = { version = "0.7.0", features = ["handlebars_templates"] }
+# failure = "0.1.8"
+# soft-ascii-string = "1.1.0"
+# mail-template = "0.6.1"
