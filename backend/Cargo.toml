@@ -1,5 +1,5 @@
 [package]
-name = "pi-web-backend"
+name = "backend"
 version = "0.1.0"
 authors = ["BrilliantPhal <phalbrilliant@gmail.com>"]
 edition = "2018"

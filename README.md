@@ -1,6 +1,10 @@
 # KOOMPI AppStore
 
-**Objectives**
+---
+
+KOOMPI AppStore is the next generation software distribution platform.
+
+## Objectives
 
 This is a free and opensource AppStore for KOOMPI OS. The objectives of making this up are to:
 
@@ -9,7 +13,7 @@ This is a free and opensource AppStore for KOOMPI OS. The objectives of making t
 - Unite a happy and healthy opensource world to make tools for the next generations.
 - Help developers to be rewardful for thier kind-hearted achievements.
 
-**TO-DO's**
+## TO-DO's
 
 As of now, we don't have a clear roadmap on how to exactly implement yet. However, the followings
 are brief to-do's:
@@ -20,7 +24,7 @@ are brief to-do's:
 - [ ] Create desktop & mobile GUI client with Qt.
 - [ ] Etc...
 
-**Developemt**
+## Developemt
 
 Requirements: rustup, cargo, rustc (stable), mongodb
 
