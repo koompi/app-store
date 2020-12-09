@@ -3,7 +3,7 @@ pub struct RootQuery;
 
 #[Object]
 impl RootQuery {
-    pub async fn greet<'a>(&self, ctx: &'a Context<'_>) -> String {
+    pub async fn greet(&self, _ctx: &Context<'_>) -> String {
         String::from("Hello")
     }
 }

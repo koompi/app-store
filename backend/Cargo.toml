@@ -8,18 +8,17 @@ edition = "2018"
 
 [dependencies]
 # Server
-actix-cors = "*"
-actix-rt = "*"
-actix-web = { version = "*"}
-actix-web-actors = "3.0.0"
+actix-cors = "0.5.3"
+actix-rt = "1"
+actix-web = "3"
 # Async
-futures = "0.3.7"
+futures = "0.3.8"
 # GraphQL
-async-graphql = "*"
-async-graphql-actix-web = "*"
+async-graphql = "2"
+async-graphql-actix-web = "2"
 # Database
-mongodb = "*"
+mongodb = "1.1.1"
 # Security
-jsonwebtoken = "*"
-bcrypt = "*"
-dotenv = "*"
+jsonwebtoken = "7.2.0"
+bcrypt = "0.9.0"
+dotenv = "0.15.0"

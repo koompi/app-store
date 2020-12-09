@@ -4,7 +4,7 @@ pub struct RootMutation;
 
 #[Object]
 impl RootMutation {
-    pub async fn say<'a>(&self, ctx: &'a Context<'_>) -> String {
+    pub async fn say(&self, _ctx: &Context<'_>) -> String {
         String::from("Say something")
     }
 }
