@@ -1,9 +1,12 @@
 pub mod graphql;
 pub mod handler;
 
+// Library imports
 use actix_web::{guard, web, App, HttpServer};
 use async_graphql::{EmptySubscription, Schema};
-use graphql::{mutation::RootMutation, query::RootQuery};
+
+// Local imports
+use graphql::{RootMutation, RootQuery};
 use handler::{gql_playgound, index};
 
 #[actix_web::main]
@@ -15,6 +18,7 @@ async fn main() -> std::io::Result<()> {
     let address = format!("{}:{}", ip, port);
 
     println!("AppStore is running at: http://{}", &address);
+    println!("GraphQL is running at: http://{}/api", &address);
 
     let schema = Schema::build(RootQuery, RootMutation, EmptySubscription).finish();
 

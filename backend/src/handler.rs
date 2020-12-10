@@ -1,7 +1,10 @@
-use crate::graphql::root::{MainSchema, Token};
+// Library imports
 use actix_web::{web, HttpRequest, HttpResponse};
 use async_graphql::http::{playground_source, GraphQLPlaygroundConfig};
 use async_graphql_actix_web::{Request, Response};
+
+// Local imports
+use crate::graphql::{MainSchema, Token};
 
 pub async fn index(
     schema: web::Data<MainSchema>,

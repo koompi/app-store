@@ -9,13 +9,11 @@ edition = "2018"
 [dependencies]
 # Server
 actix-cors = "0.5.3"
-actix-rt = "1"
-actix-web = "3"
-# Async
-futures = "0.3.8"
+actix-rt = "1.1.1"
+actix-web = "3.3.2"
 # GraphQL
-async-graphql = "2"
-async-graphql-actix-web = "2"
+async-graphql = "2.1.7"
+async-graphql-actix-web = "2.1.7"
 # Database
 mongodb = "1.1.1"
 # Security
