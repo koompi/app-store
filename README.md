@@ -26,7 +26,7 @@ are brief to-do's:
 
 ## Developemt
 
-Requirements: rustup, cargo, rustc (stable), mongodb
+Requirements: rustup, cargo, rustc (stable), mongodb, glibc
 
 ```bash
 git clone https://github.com/koompi/koompi-appstore.git

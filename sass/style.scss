@@ -1,27 +1,133 @@
 @import "./config";
-@import "./util";
 
-html {
-    width: 100vw;
-    height: 100vh;
+html,
+body {
+    @include full_size();
+
     font-size: 16px;
 }
 
-body {
-    width: 100vw;
-    height: 100vh;
-}
-.container {
+#container {
+    @include full_size();
+
     display: flex;
-}
-.side_nav {
-    width: 15vw;
-    height: 100vh;
-    background-color: $dark;
+    flex-direction: row;
+
+    nav {
+        width: 15%;
+        height: 100%;
+        background-color: $dark;
+        padding: 1rem;
+
+        li {
+            margin: 0.4rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: 0.4rem;
+            font-size: 1rem;
+            line-height: 2rem;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            font-weight: 500;
+            cursor: pointer;
+
+            img {
+                margin-right: 1rem;
+                vertical-align: middle;
+            }
+            &:hover {
+                background: lighten($dark, 10%);
+            }
+            &.active,
+            &.active:hover {
+                background: $primary;
+            }
+        }
+    }
+
+    #main {
+        width: 85%;
+        height: 100%;
+        padding: 1.5rem;
+
+        background: lighten($dark, 10%);
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 1rem;
+        justify-content: space-between;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: $dark lighten($dark, 10%);
+
+        div {
+            height: 35vh;
+            background: $dark;
+            border-radius: 0.6rem;
+        }
+
+        #banner {
+            grid-column: 1/6;
+            height: 40vh;
+        }
+
+        .title {
+            grid-column: 1/6;
+            height: 3rem;
+            background: none;
+        }
+
+        &:hover::-webkit-scrollbar {
+            width: 6px;
+            background: lighten($dark, 10%);
+        }
+
+        &:hover::-webkit-scrollbar-thumb {
+            background: $dark;
+        }
+    }
 }
 
-.content {
-    width: 85vw;
-    height: 100vh;
-    background-color: lighten($dark, 5%);
-}
+// #lnav {
+//     padding-top: 5vh;
+//     padding-bottom: 5vh;
+//     padding-left: 5vw;
+//     grid-column: 1/2;
+//     grid-row: 1/2;
+//     overflow-x: hidden;
+//     overflow-y: auto;
+//     text-align: right;
+//     scrollbar-width: none;
+//     transition: 100ms ease-in-out;
+// }
+
+// #lnav::-webkit-scrollbar {
+//     width: none;
+//     background: transparent;
+// }
+
+// #lnav:hover::-webkit-scrollbar {
+//     width: 6px;
+//     background-color: transparent;
+// }
+// #lnav:hover::-webkit-scrollbar-thumb {
+//     background: rgba(0, 0, 0, 0.2);
+// }
+
+// #lnav:hover {
+//     scrollbar-width: thin;
+//     padding-right: 0px;
+//     padding-left: 50px;
+//     /* text-align: center !important; */
+// }
+
+// #rnav {
+//     padding-top: 5vh;
+//     padding-bottom: 5vh;
+//     grid-column: 3/4;
+//     grid-row: 1/2;
+//     overflow-x: hidden;
+//     overflow-y: auto;
+//     text-align: left;
+//     scrollbar-width: none;
+//     transition: 100ms ease-in-out;
+// }
