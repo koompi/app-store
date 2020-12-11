@@ -1,0 +1,27 @@
+@import "./config";
+@import "./util";
+
+html {
+    width: 100vw;
+    height: 100vh;
+    font-size: 16px;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+.container {
+    display: flex;
+}
+.side_nav {
+    width: 15vw;
+    height: 100vh;
+    background-color: $dark;
+}
+
+.content {
+    width: 85vw;
+    height: 100vh;
+    background-color: lighten($dark, 5%);
+}

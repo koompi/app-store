@@ -1,6 +1,16 @@
-use wasm_bindgen::prelude::*;
-use yew::prelude::*;
+#![allow(non_snake_case)]
 
+// Modules
+pub mod components;
+pub mod layouts;
+pub mod pages;
+pub mod routes;
+// Library imports
+use wasm_bindgen::prelude::*;
+use yew::{html, App, Component, ComponentLink, Html, ShouldRender};
+
+// Local imports
+use pages::Home;
 pub struct Index;
 
 impl Component for Index {
@@ -21,7 +31,7 @@ impl Component for Index {
 
     fn view(&self) -> Html {
         html! {
-            <div>{"Hi"}</div>
+            <Home/>
         }
     }
 }
