@@ -50,12 +50,12 @@ body {
     #main {
         width: 85%;
         height: 100%;
-        padding: 1rem 0 1rem 1rem;
+        padding: 1rem;
         background: lighten($dark, 10%);
         display: grid;
-        grid-template-columns: repeat(5, 304px);
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         grid-gap: 1rem;
-        justify-content: space-evenly;
+        justify-content: space-around;
         overflow-y: auto;
         scrollbar-width: thin;
         scrollbar-color: $dark lighten($dark, 10%);
@@ -231,7 +231,7 @@ body {
             grid-gap: 1rem;
             justify-content: space-between;
             overflow-y: scroll;
-            scrollbar-width: thin;
+            scrollbar-width: none;
 
             div.avatar {
                 width: 128px;
@@ -284,48 +284,3 @@ body {
         }
     }
 }
-
-// #lnav {
-//     padding-top: 5vh;
-//     padding-bottom: 5vh;
-//     padding-left: 5vw;
-//     grid-column: 1/2;
-//     grid-row: 1/2;
-//     overflow-x: hidden;
-//     overflow-y: auto;
-//     text-align: right;
-//     scrollbar-width: none;
-//     transition: 100ms ease-in-out;
-// }
-
-// #lnav::-webkit-scrollbar {
-//     width: none;
-//     background: transparent;
-// }
-
-// #lnav:hover::-webkit-scrollbar {
-//     width: 6px;
-//     background-color: transparent;
-// }
-// #lnav:hover::-webkit-scrollbar-thumb {
-//     background: rgba(0, 0, 0, 0.2);
-// }
-
-// #lnav:hover {
-//     scrollbar-width: thin;
-//     padding-right: 0px;
-//     padding-left: 50px;
-//     /* text-align: center !important; */
-// }
-
-// #rnav {
-//     padding-top: 5vh;
-//     padding-bottom: 5vh;
-//     grid-column: 3/4;
-//     grid-row: 1/2;
-//     overflow-x: hidden;
-//     overflow-y: auto;
-//     text-align: left;
-//     scrollbar-width: none;
-//     transition: 100ms ease-in-out;
-// }
