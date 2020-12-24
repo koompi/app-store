@@ -1,11 +1,14 @@
+pub mod database;
 pub mod graphql;
 pub mod handler;
+pub mod models;
 
 // Library imports
 use actix_web::{guard, web, App, HttpServer};
 use async_graphql::{EmptySubscription, Schema};
 
 // Local imports
+use database::db_pool;
 use graphql::{RootMutation, RootQuery};
 use handler::{gql_playgound, index};
 
@@ -17,6 +20,8 @@ async fn main() -> std::io::Result<()> {
     let port = dotenv::var("PORT").unwrap();
     let address = format!("{}:{}", ip, port);
 
+    let pool = db_pool().await.unwrap();
+
     println!("AppStore is running at: http://{}", &address);
     println!("GraphQL is running at: http://{}/api", &address);
 
@@ -25,6 +30,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .data(schema.clone())
+            .data(pool.clone())
             .service(web::resource("/api").guard(guard::Post()).to(index))
             .service(web::resource("/api").guard(guard::Get()).to(gql_playgound))
     })
