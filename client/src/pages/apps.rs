@@ -3,9 +3,9 @@ use crate::components::{Footer, Header};
 use crate::layouts::MainLayout;
 use crate::routes::{AppRoute, AppRouteAnchor};
 use yew::prelude::*;
-pub struct Home;
+pub struct Apps;
 
-impl Component for Home {
+impl Component for Apps {
     type Message = ();
     type Properties = ();
 
@@ -27,7 +27,7 @@ impl Component for Home {
                 <SideNav/>
                 <div id="main">
                     <div id="banner">
-                        <h1>{"Explore the Open Source Space"}</h1>
+                        <h1>{"Apps"}</h1>
                         <p>
                             {"There where the abundant of freedom, knowledge, economy,
                             and trust shared"}

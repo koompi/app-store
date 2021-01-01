@@ -1,27 +1,36 @@
+#![recursion_limit = "1024"]
 #![allow(non_snake_case)]
 
 // Modules
 pub mod components;
+pub mod data;
 pub mod layouts;
 pub mod pages;
 pub mod routes;
 // Library imports
 use wasm_bindgen::prelude::*;
-use yew::{html, App, Component, ComponentLink, Html, ShouldRender};
+use yew::{html, App, Component, ComponentLink, Html, Properties, ShouldRender};
 
 // Local imports
+use components::SideNav;
 use pages::Home;
-pub struct Index;
+use routes::{AppRoute, AppRouter};
+#[derive(Debug, Default, Clone)]
+pub struct Index {
+    active_route: AppRoute,
+}
 
 impl Component for Index {
     type Message = ();
     type Properties = ();
 
-    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self {}
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
+        Self {
+            active_route: AppRoute::default(),
+        }
     }
 
-    fn update(&mut self, _msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
         false
     }
 
@@ -31,7 +40,7 @@ impl Component for Index {
 
     fn view(&self) -> Html {
         html! {
-            <Home/>
+            <AppRouter/>
         }
     }
 }

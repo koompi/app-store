@@ -217,7 +217,25 @@ body {
             height: 3rem;
             background: none;
         }
+        .cate-card {
+            height: 200px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 72px;
+            display: grid;
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            align-items: flex-end;
+            justify-items: center;
+            padding-bottom: 1rem;
+            transition: 100ms linear;
+            cursor: pointer;
 
+            &:hover {
+                box-shadow: $dark 0px 5px 10px -2px;
+                transform: translateY(-2px);
+            }
+        }
         .paper {
             grid-column: 2/5;
             height: 90vh;
@@ -246,7 +264,10 @@ body {
                 background-position: center;
                 z-index: 2;
             }
-
+            &.setting {
+                grid-template-rows: 1fr;
+                overflow-y: scroll;
+            }
             div.info {
                 background: none;
                 grid-column: 2/3;
@@ -264,9 +285,42 @@ body {
                 }
             }
 
+            div.title {
+                grid-column: 1/3;
+            }
             div.desc {
                 grid-column: 1/3;
-                height: 25vh;
+                height: auto;
+                padding: 2rem;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                justify-content: space-between;
+                justify-items: stretch;
+                grid-gap: 2rem;
+                input {
+                    grid-column: 2/5;
+                    height: 2.4rem;
+                    border: $primary 2px solid;
+                    padding: 0.6rem 1rem;
+                    border-radius: 0.6rem;
+                    color: $light;
+                    background: $gray;
+                    align-self: center;
+                }
+                label {
+                    grid-column: 1/2;
+                    font-weight: 500;
+                    align-self: center;
+                }
+                button {
+                    height: 2.4rem;
+                    padding: 0.6rem 1rem;
+                    border: none;
+                    border-radius: 0.6rem;
+                    background: $primary;
+                    color: white;
+                    font-weight: 600;
+                }
             }
             div.clear {
                 grid-column: 1/3;
@@ -281,6 +335,45 @@ body {
 
         &:hover::-webkit-scrollbar-thumb {
             background: $dark;
+        }
+    }
+
+    &.form-page {
+        width: 100vw;
+        height: 100vh;
+        background: lighten($dark, 10%);
+
+        #form-container {
+            width: 300px;
+            height: 300px;
+            background: $dark;
+            transform: translateX(calc(50vw - 150px))
+                translateY(calc(50vh - 150px));
+            border-radius: 0.6rem;
+            padding: 1rem;
+            * {
+                margin: 0.5rem 0;
+            }
+            input[name="email"],
+            input[name="password"] {
+                width: 100%;
+                border: $primary 2px solid;
+                padding: 0.6rem 1rem;
+
+                border-radius: 0.6rem;
+                color: $light;
+                background: $gray;
+            }
+
+            button {
+                width: 100%;
+                padding: 0.6rem 1rem;
+                border: none;
+                border-radius: 0.6rem;
+                background: $primary;
+                color: white;
+                font-weight: 600;
+            }
         }
     }
 }
