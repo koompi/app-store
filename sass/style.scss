@@ -3,8 +3,13 @@
 html,
 body {
     @include full_size();
-
+    background-color: lighten($dark, 10%);
     font-size: 16px;
+}
+* {
+    outline: none;
+    scrollbar-width: thin;
+    scrollbar-color: $dark lighten($dark, 10%);
 }
 
 #container {
@@ -49,16 +54,17 @@ body {
 
     #main {
         width: 85%;
-        height: 100%;
+        height: fit-content(1rem);
         padding: 1rem;
         background: lighten($dark, 10%);
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(15vw, 1fr));
         grid-gap: 1rem;
-        justify-content: space-around;
+        justify-content: space-between;
+        align-items: flex-start;
+        justify-items: stretch;
+        align-content: flex-start;
         overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: $dark lighten($dark, 10%);
 
         .clear {
             grid-column: 1/6;
@@ -128,6 +134,7 @@ body {
         .list {
             grid-column: 1/6;
             height: calc(10vh + 2rem);
+            // height: fit-content;
             display: grid;
             grid-template-columns: 100px 1fr 120px;
             justify-content: center;
@@ -238,7 +245,7 @@ body {
         }
         .paper {
             grid-column: 2/5;
-            height: 90vh;
+            height: fit-content;
             transform: translateY(-35vh);
             background-color: lighten($dark, 8%);
             box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 5px 1px;
@@ -250,7 +257,14 @@ body {
             justify-content: space-between;
             overflow-y: scroll;
             scrollbar-width: none;
+            &::-webkit-scrollbar {
+                width: 0;
+                background: lighten($dark, 10%);
+            }
 
+            &::-webkit-scrollbar-thumb {
+                background: $dark;
+            }
             div.avatar {
                 width: 128px;
                 height: 128px;
@@ -290,13 +304,13 @@ body {
             }
             div.desc {
                 grid-column: 1/3;
-                height: auto;
+                height: fit-content(2rem);
                 padding: 2rem;
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 justify-content: space-between;
-                justify-items: stretch;
-                grid-gap: 2rem;
+                // justify-items: stretch;
+                grid-gap: 1rem;
                 input {
                     grid-column: 2/5;
                     height: 2.4rem;
@@ -321,6 +335,37 @@ body {
                     color: white;
                     font-weight: 600;
                 }
+                &.gallery {
+                    grid-template-columns: repeat(10, 30vh);
+                    grid-gap: 0.2rem;
+                    padding: 0;
+                    border-radius: 0;
+                    background: none;
+                    overflow-x: scroll;
+                    scrollbar-width: thin;
+                    div.img-holder {
+                        width: 30vh;
+                        background: none;
+                        height: calc(30vh * 0.56);
+                        background-size: cover;
+                        background-repeat: no-repeat;
+                        border-radius: 0;
+                    }
+                    &::-webkit-scrollbar {
+                        height: 6px;
+                        background: lighten($dark, 10%);
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                        background: $dark;
+                    }
+                }
+                &.text {
+                    height: fit-content;
+                    display: unset;
+                    line-height: 1.5rem;
+                    padding: 1rem;
+                }
             }
             div.clear {
                 grid-column: 1/3;
@@ -328,12 +373,12 @@ body {
             }
         }
 
-        &:hover::-webkit-scrollbar {
+        &::-webkit-scrollbar {
             width: 6px;
             background: lighten($dark, 10%);
         }
 
-        &:hover::-webkit-scrollbar-thumb {
+        &::-webkit-scrollbar-thumb {
             background: $dark;
         }
     }

@@ -24,8 +24,228 @@ impl Component for Updates {
         html! {
             <div id="container">
                 <SideNav/>
-                <div id="main">
+                <div id="main" class="update">
                     <div class="title"><h2>{"Updates available"}</h2></div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <div
+                            class="avatar"
+                            style="
+                                background-image: url('https://cdn.worldvectorlogo.com/logos/visual-studio-code-1.svg');
+                            "
+                        ></div>
+
+                        <div class="info">
+                            <h3>{"Visual Studio Code"}</h3>
+                            <p>
+                                {"The best open source text editor. The best open
+                                source text editor. The best open source text
+                                editor."}
+                            </p>
+                        </div>
+                        <div class="update">
+                            <button>{"Update"}</button>
+                        </div>
+                    </div>
                     <div class="list">
                         <div
                             class="avatar"

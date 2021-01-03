@@ -52,17 +52,6 @@ impl Component for Settings {
                             <label for="">{"Automatic Update"}</label>
                             <button>{"Enable"}</button>
 
-                            <label for="">{"Automatic Update"}</label>
-                            <button>{"Enable"}</button>
-
-                            <label for="">{"Automatic Update"}</label>
-                            <button>{"Enable"}</button>
-                            <label for="">{"Automatic Update"}</label>
-                            <button>{"Enable"}</button>
-                            <label for="">{"Automatic Update"}</label>
-                            <button>{"Enable"}</button>
-                            <label for="">{"Automatic Update"}</label>
-                            <button>{"Enable"}</button>
                         </div>
 
                         <div class="clear"></div>
