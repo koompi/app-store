@@ -3,9 +3,9 @@ use crate::components::{Footer, Header};
 use crate::layouts::MainLayout;
 use yew::prelude::*;
 
-pub struct Games;
+pub struct Add;
 
-impl Component for Games {
+impl Component for Add {
     type Message = ();
     type Properties = ();
 

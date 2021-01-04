@@ -42,11 +42,13 @@ impl Component for SideNav {
         html! {
             <nav>
                 <h1>{"Open Store"}</h1>
+                <br />
+                <h3>{"Explore"}</h3>
                 <ul>
                     <li class={ if p == "/" { "active" } else { "" } }>
                         <AppRouteAnchor classes="home-logo-link" route={AppRoute::IndexPage}>
-                        <img src="/icons/explore-black-18dp.svg" alt="" />
-                            {"Explore"}
+                            <img src="/icons/explore-black-18dp.svg" alt="" />
+                            {"Featured"}
                         </AppRouteAnchor>
                     </li>
                     <li class={ if p == "/apps" { "active" } else { "" } }>
@@ -55,18 +57,15 @@ impl Component for SideNav {
                             {"Apps"}
                         </AppRouteAnchor>
                     </li>
-                    <li class={ if p == "/games" { "active" } else { "" } }>
-                        <AppRouteAnchor classes="home-logo-link" route={AppRoute::GamesPage}>
-                            <img src="/icons/games-black-18dp.svg" alt="" />
-                            {"Games"}
-                        </AppRouteAnchor>
-                    </li>
                     <li class={ if p == "/categories" { "active" } else { "" } }>
                         <AppRouteAnchor classes="home-logo-link" route={AppRoute::CategoriesPage}>
                             <img src="/icons/category-black-18dp.svg" alt="" />
                             {"Categories"}
                         </AppRouteAnchor>
                     </li>
+                </ul>
+                <h3>{"Manage"}</h3>
+                <ul>
                     <li class={ if p == "/updates" { "active" } else { "" } }>
                         <AppRouteAnchor classes="home-logo-link" route={AppRoute::UpdatesPage}>
                             <img src="/icons/update-black-18dp.svg" alt="" />
@@ -75,8 +74,29 @@ impl Component for SideNav {
                     </li>
                     <li class={ if p == "/settings" { "active" } else { "" } }>
                         <AppRouteAnchor classes="home-logo-link" route={AppRoute::SettingsPage}>
-                        <img src="/icons/settings-black-18dp.svg" alt="" />
+                            <img src="/icons/settings-black-18dp.svg" alt="" />
                             {"Settings"}
+                        </AppRouteAnchor>
+                    </li>
+                </ul>
+                <h3>{"Develop"}</h3>
+                <ul>
+                    <li class={ if p == "/add" { "active" } else { "" } }>
+                        <AppRouteAnchor classes="home-logo-link" route={AppRoute::AddPage}>
+                            <img
+                                src="/icons/cloud_upload-black-18dp.svg"
+                                alt=""
+                            />
+                            {"Add"}
+                        </AppRouteAnchor>
+                    </li>
+                    <li class={ if p == "/assets" { "active" } else { "" } }>
+                        <AppRouteAnchor classes="home-logo-link" route={AppRoute::AssetsPage}>
+                            <img
+                                src="/icons/folder_shared-black-18dp.svg"
+                                alt=""
+                            />
+                            {"Assets"}
                         </AppRouteAnchor>
                     </li>
                 </ul>

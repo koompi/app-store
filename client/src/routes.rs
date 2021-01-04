@@ -1,4 +1,6 @@
-use crate::pages::{AppByName, Apps, Categories, Games, Home, Login, Settings, Signup, Updates};
+use crate::pages::{
+    Add, AppByName, Apps, Assets, Categories, Home, Login, Settings, Signup, Updates,
+};
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 use yew_router::prelude::*;
@@ -18,14 +20,17 @@ pub enum AppRoute {
     UpdatesPage,
     #[to = "/settings"]
     SettingsPage,
-    #[to = "/games"]
-    GamesPage,
+
     #[to = "/categories"]
     CategoriesPage,
+    #[to = "/assets"]
+    AssetsPage,
     #[to = "/apps/{name}"]
     AppByNamePage(String),
     #[to = "/apps"]
     AppsPage,
+    #[to = "/add"]
+    AddPage,
     #[to = "/"]
     IndexPage,
 }
@@ -86,12 +91,16 @@ impl Component for AppRouter {
             AppRoute::AppsPage => html! {
                 <Apps />
             },
+            AppRoute::AddPage => html! {
+                <Add />
+            },
+            AppRoute::AssetsPage => html! {
+                <Assets />
+            },
             AppRoute::CategoriesPage => html! {
                 <Categories />
             },
-            AppRoute::GamesPage => html! {
-                <Games />
-            },
+
             AppRoute::SettingsPage => html! {
                 <Settings />
             },
