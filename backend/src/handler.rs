@@ -34,6 +34,7 @@ pub async fn index(
 }
 
 pub async fn gql_playgound() -> HttpResponse {
+    //  Response playground service
     HttpResponse::Ok()
         .content_type("text/html; charset=utf-8")
         .body(playground_source(
