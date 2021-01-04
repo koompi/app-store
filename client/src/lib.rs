@@ -1,9 +1,10 @@
 #![recursion_limit = "1024"]
-#![allow(non_snake_case)]
+#![allow(non_snake_case, unused_variables, unused_imports)]
 
 // Modules
 pub mod components;
 pub mod data;
+pub mod graphql;
 pub mod layouts;
 pub mod pages;
 pub mod routes;

@@ -1,0 +1,185 @@
+schema {
+    query: RootQuery
+    mutation: RootMutation
+}
+
+# Directs the executor to query only when the field exists.
+directive @ifdef on FIELD
+
+type Asset {
+    id: String!
+    name: String!
+    assetType: String!
+    dateCreated: String!
+    modifiedDate: String!
+    ownerId: String!
+    privacy: String!
+    description: String!
+    ownerInfo: User!
+}
+
+type Org {
+    id: String!
+    name: String!
+    description: String!
+    ownerId: String!
+    members: [String!]!
+    ownerInfo: User!
+    membersInfo: [User!]!
+}
+
+type Product {
+    id: String!
+    name: String!
+    description: String!
+    productType: String!
+    ownerId: String!
+    dateCreated: String!
+    status: String!
+    ownerInfo: User!
+}
+
+type Profile {
+    id: String!
+    name: String!
+    bioDesc: String!
+    address: String!
+    avatar: String!
+    ownerId: String!
+    website: String!
+    company: String!
+    ownerInfo: User!
+}
+
+type Role {
+    id: String!
+    name: String!
+    description: String!
+}
+
+type RootMutation {
+    signup(email: String!, password: String!): User!
+    signin(email: String!, password: String!): String!
+    changePassword(
+        email: String!
+        currentP: String!
+        newP: String!
+        confirmP: String!
+    ): String!
+    requestResetPassword(id: String!): String!
+    resetPassword(email: String!, newP: String!, confirmP: String!): String!
+    deleteUser(id: String!): String!
+    createAsset(
+        name: String!
+        assetType: String!
+        dateCreated: String!
+        modifiedDate: String!
+        ownerId: String!
+        privacy: String!
+        description: String!
+    ): Asset!
+    deleteAsset(id: String!): String!
+    createOrg(
+        name: String!
+        description: String!
+        ownerId: String!
+        members: [String!]!
+    ): Org!
+    deleteOrg(id: String!): String!
+    createProduct(
+        name: String!
+        description: String!
+        productType: String!
+        ownerId: String!
+        dateCreated: String!
+        status: String!
+    ): Product!
+    deleteProduct(id: String!): String!
+    createProfile(
+        name: String!
+        bioDesc: String!
+        address: String!
+        avatar: String!
+        ownerId: String!
+        website: String!
+        company: String!
+    ): Profile!
+    deleteProfile(id: String!): String!
+    updateProfile(
+        id: String!
+        name: String!
+        bioDesc: String!
+        address: String!
+        avatar: String!
+        ownerId: String!
+        website: String!
+        company: String!
+    ): Profile!
+    createRole(name: String!, description: String!): Role!
+    deleteRole(id: String!): String!
+    updateRole(id: String!, name: String): Role!
+}
+
+type RootQuery {
+    users: [User!]!
+    userById(
+        # Query by user ID
+        id: String!
+    ): User!
+    usersByIds(
+        # Query by user ID
+        ids: [String!]!
+    ): [User!]!
+    userByEmail(
+        # Query by user ID
+        email: String!
+    ): User!
+    assets: [Asset!]!
+    assetById(
+        # Query by asset ID
+        id: String!
+    ): Asset!
+    assetsByOwnerId(
+        # Query by user ID
+        ownerId: String!
+    ): [Asset!]!
+    orgs: [Org!]!
+    orgById(
+        # Query by org ID
+        id: String!
+    ): Org!
+    orgsByOwnerId(
+        # Query by user ID
+        ownerId: String!
+    ): [Org!]!
+    products: [Product!]!
+    productById(
+        # Query by product ID
+        id: String!
+    ): Product!
+    productsByOwnerId(
+        # Query by user ID
+        ownerId: String!
+    ): [Product!]!
+    profiles: [Profile!]!
+    profileById(
+        # Query by profile ID
+        id: String!
+    ): Profile!
+    profilesByOwnerId(
+        # Query by user ID
+        ownerId: String!
+    ): [Profile!]!
+    roles: [Role!]!
+    roleById(
+        # Query by role ID
+        id: String!
+    ): Role!
+}
+
+type User {
+    id: String!
+    email: String!
+    password: String!
+    status: Boolean!
+}

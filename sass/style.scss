@@ -11,7 +11,9 @@ body {
     scrollbar-width: thin;
     scrollbar-color: $dark lighten($dark, 10%);
 }
-
+button:disabled {
+    background-color: brown !important;
+}
 #container {
     @include full_size();
 
