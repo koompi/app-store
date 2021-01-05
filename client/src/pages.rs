@@ -17,5 +17,5 @@ pub use categories::Categories;
 pub use home::Home;
 pub use login::Login;
 pub use settings::Settings;
-pub use signup::Signup;
+pub use signup::SignUpPage;
 pub use updates::Updates;

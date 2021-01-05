@@ -12,7 +12,7 @@ use yew::{
     Callback, InputData, MouseEvent,
 };
 
-pub struct Signup {
+pub struct SignUpPage {
     pub props: Props,
     pub link: ComponentLink<Self>,
     pub fetch: Option<FetchTask>,
@@ -28,18 +28,19 @@ pub struct Props {
     pub p2: String,
 }
 
-#[derive(Debug, Clone)]
-pub enum SignupMessage {
+#[derive(Debug)]
+pub enum Msg {
     EmailChanged(String),
     POneChanged(String),
     PTwoChanged(String),
-    RunFetch,
-    FetchResourceFailed,
-    FetchResourceComplete,
+    RunMutation,
+    MutationFailed(anyhow::Error),
+    MutationCompleted(bool),
+    MutationSucceeded(sign_up::SignUpSignUp),
 }
 
-impl Component for Signup {
-    type Message = SignupMessage;
+impl Component for SignUpPage {
+    type Message = Msg;
     type Properties = Props;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
@@ -52,30 +53,27 @@ impl Component for Signup {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            SignupMessage::EmailChanged(s) => {
+            Msg::EmailChanged(s) => {
                 ConsoleService::log(&s);
                 self.props.email = s;
                 true
             }
-            SignupMessage::POneChanged(s) => {
+            Msg::POneChanged(s) => {
                 ConsoleService::log(&s);
                 self.props.p1 = s;
                 true
             }
-            SignupMessage::PTwoChanged(s) => {
+            Msg::PTwoChanged(s) => {
                 ConsoleService::log(&s);
                 self.props.p2 = s;
                 true
             }
-            SignupMessage::FetchResourceFailed => {
-                ConsoleService::log("Failed");
+            Msg::MutationFailed(e) => {
+                ConsoleService::log(&format!("{:#?}", e));
                 false
             }
-            SignupMessage::FetchResourceComplete => {
-                ConsoleService::log("Signup completed");
-                false
-            }
-            SignupMessage::RunFetch => {
+            Msg::MutationCompleted(b) => b,
+            Msg::RunMutation => {
                 let e = self.props.email.clone();
                 let p = self.props.p1.clone();
 
@@ -89,7 +87,6 @@ impl Component for Signup {
                     .header("Credentials", "same-origin")
                     .header("Accept", "application/json")
                     .header("Content-Type", "application/json")
-                    // .header("Authorization", "Bearer 59ea201e2a09a99126edad345f7cd1f0")
                     .body(Json(&body));
                 match request {
                     Ok(r) => {
@@ -98,35 +95,36 @@ impl Component for Signup {
                                 Json<Result<Response<sign_up::ResponseData>, anyhow::Error>>,
                             >| {
                                 let (meta, body) = response.into_parts();
-                                if meta.status.is_success() {
-                                    SignupMessage::FetchResourceFailed
-                                } else {
-                                    // Msg::Receive(data.ok())
-                                    ConsoleService::log(&format!("{:#?}", &meta));
-                                    ConsoleService::log(&format!("{:#?}", &body));
-                                    SignupMessage::FetchResourceComplete
-                                }
+
+                                // if meta.status.is_success() {
+                                //     Msg::MutationCompleted(true)
+                                // } else {
+                                //     // Msg::Receive(data.ok())
+                                //     ConsoleService::log(&format!("{:#?}", &meta));
+                                //     ConsoleService::log(&format!("{:#?}", &body));
+                                //     Msg::MutationFailed(meta.status.)
+                                //     Msg::MutationCompleted(true)
+                                // }
+
+                                // match data.data {
+                                //     Some(data) => Ok(Some(data)),
+                                //     None => Ok(None),
+                                // }
+                                // let mut j_string: String =
+                                //     format!("{:#?}", body.0.unwrap().data.unwrap().signup);
+                                let res = body.0.unwrap().data.unwrap();
+
+                                // let j = serde_json::from_str(&j_string);
+
+                                ConsoleService::log(&format!("{:#?}", res));
+                                Msg::MutationSucceeded(res.sign_up)
                             },
                         );
 
-                        // let task = FetchService::fetch(r, callback);
-                        // match task {
-                        // Ok(t) => false,
-                        // Err(e) => {
-                        //     ConsoleService::log(&format!("{:#?}", e));
-                        //     false
-                        // }
-                        // }
-                        // match self.fetch::request {
-                        // Ok(t) => false,
-                        // Err(e) => {
-                        //     ConsoleService::log(&format!("{:#?}", e));
-                        //     false
-                        // }
-                        // }
                         self.fetch = Some(FetchService::fetch(r, callback).unwrap());
                         self.fetch.as_ref().unwrap();
-                        false
+
+                        true
                     }
                     Err(e) => {
                         ConsoleService::log(&format!("{:#?}", e));
@@ -134,6 +132,7 @@ impl Component for Signup {
                     }
                 }
             }
+            _ => false,
         }
     }
 
@@ -153,7 +152,7 @@ impl Component for Signup {
                             id="email"
                             placeholder="Email"
                             value=&self.props.email
-                            oninput=self.link.callback(|e: InputData| SignupMessage::EmailChanged(e.value))
+                            oninput=self.link.callback(|e: InputData| Msg::EmailChanged(e.value))
                         />
                         <input
                             type="password"
@@ -161,7 +160,7 @@ impl Component for Signup {
                             id="password"
                             placeholder="Password"
                             value=&self.props.p1
-                            oninput=self.link.callback(|e: InputData| SignupMessage::POneChanged(e.value))
+                            oninput=self.link.callback(|e: InputData| Msg::POneChanged(e.value))
                         />
                         <input
                             type="password"
@@ -169,13 +168,13 @@ impl Component for Signup {
                             id="password"
                             placeholder="Confirm password"
                             value=&self.props.p2
-                            oninput=self.link.callback(|e: InputData| SignupMessage::PTwoChanged(e.value))
+                            oninput=self.link.callback(|e: InputData| Msg::PTwoChanged(e.value))
                         />
                         <button
                             disabled={ self.props.email.is_empty() || self.props.p1.is_empty() || self.props.p2.is_empty() || (self.props.p1 != self.props.p2) }
                             onclick=self.link.callback(|e: MouseEvent| {
                                 e.prevent_default();
-                                SignupMessage::RunFetch
+                                Msg::RunMutation
                             })
                         >{"Sign up"}</button>
                     </form>
@@ -187,14 +186,14 @@ impl Component for Signup {
 
 #[derive(GraphQLQuery, Debug)]
 #[graphql(
-    query_path = "../schema/mutations/signup.graphql",
+    query_path = "../schema/mutations/sign_up.graphql",
     schema_path = "../schema/schema.graphql",
     response_derives = "Debug,Serialize,Deserialize,PartialEq"
 )]
 pub struct SignUp;
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Email {
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SignUpSignUp {
     email: String,
 }
 // pub async fn signup(email: String, password: String) -> Result<Option<Email>, anyhow::Error> {

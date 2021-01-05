@@ -26,7 +26,7 @@ pub struct RootMutation;
 #[Object]
 impl RootMutation {
     // ======================== User Account ====================================
-    async fn signup(
+    async fn sign_up(
         &self,
         ctx: &Context<'_>,
         #[graphql(validator(Email))] email: String,

@@ -58,7 +58,7 @@ type Role {
 }
 
 type RootMutation {
-    signup(email: String!, password: String!): User!
+    sign_up(email: String!, password: String!): User!
     signin(email: String!, password: String!): String!
     changePassword(
         email: String!

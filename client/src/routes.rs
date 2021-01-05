@@ -1,5 +1,5 @@
 use crate::pages::{
-    Add, AppByName, Apps, Assets, Categories, Home, Login, Settings, Signup, Updates,
+    Add, AppByName, Apps, Assets, Categories, Home, Login, Settings, SignUpPage, Updates,
 };
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
@@ -108,7 +108,7 @@ impl Component for AppRouter {
                 <Login />
             },
             AppRoute::SignupPage => html! {
-                <Signup />
+                <SignUpPage />
             },
             AppRoute::UpdatesPage => html! {
                 <Updates />

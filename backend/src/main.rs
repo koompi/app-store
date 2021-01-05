@@ -43,8 +43,9 @@ async fn main() -> std::io::Result<()> {
                 //     .allow_any_origin()
                 //     .allowed_header(header::CONTENT_TYPE),
                 Cors::default()
-                    .allowed_origin("http://127.0.0.1:5500")
-                    .allowed_methods(vec!["POST"])
+                    .allow_any_origin()
+                    // .allowed_origin("http://127.0.0.1:5500")
+                    .allowed_methods(vec!["POST", "GET"])
                     // .allowed_headers(vec![
                     //     header::AUTHORIZATION,
                     //     header::ACCEPT,
