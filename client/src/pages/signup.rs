@@ -1,10 +1,10 @@
 use anyhow;
 use graphql_client::*;
-// use reqwest;
 use serde::{Deserialize, Serialize};
 use yew::{
     format::Json,
     prelude::*,
+    services::fetch::FetchTask,
     services::{
         fetch::{FetchService, Request},
         ConsoleService,
@@ -15,6 +15,7 @@ use yew::{
 pub struct Signup {
     pub props: Props,
     pub link: ComponentLink<Self>,
+    pub fetch: Option<FetchTask>,
 }
 
 #[derive(Debug, Clone, Properties, PartialEq)]
@@ -32,6 +33,7 @@ pub enum SignupMessage {
     EmailChanged(String),
     POneChanged(String),
     PTwoChanged(String),
+    RunFetch,
     FetchResourceFailed,
     FetchResourceComplete,
 }
@@ -41,7 +43,11 @@ impl Component for Signup {
     type Properties = Props;
 
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { props, link }
+        Self {
+            props,
+            link,
+            fetch: None,
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -61,7 +67,73 @@ impl Component for Signup {
                 self.props.p2 = s;
                 true
             }
-            _ => false,
+            SignupMessage::FetchResourceFailed => {
+                ConsoleService::log("Failed");
+                false
+            }
+            SignupMessage::FetchResourceComplete => {
+                ConsoleService::log("Signup completed");
+                false
+            }
+            SignupMessage::RunFetch => {
+                let e = self.props.email.clone();
+                let p = self.props.p1.clone();
+
+                let body = SignUp::build_query(sign_up::Variables {
+                    email: e,
+                    password: p,
+                });
+                // ConsoleService::log(&format!("{:?}", body.query));
+
+                let request = ::http::Request::post("http://0.0.0.0:4000/api")
+                    .header("Credentials", "same-origin")
+                    .header("Accept", "application/json")
+                    .header("Content-Type", "application/json")
+                    // .header("Authorization", "Bearer 59ea201e2a09a99126edad345f7cd1f0")
+                    .body(Json(&body));
+                match request {
+                    Ok(r) => {
+                        let callback = self.link.callback(
+                            |response: http::Response<
+                                Json<Result<Response<sign_up::ResponseData>, anyhow::Error>>,
+                            >| {
+                                let (meta, body) = response.into_parts();
+                                if meta.status.is_success() {
+                                    SignupMessage::FetchResourceFailed
+                                } else {
+                                    // Msg::Receive(data.ok())
+                                    ConsoleService::log(&format!("{:#?}", &meta));
+                                    ConsoleService::log(&format!("{:#?}", &body));
+                                    SignupMessage::FetchResourceComplete
+                                }
+                            },
+                        );
+
+                        // let task = FetchService::fetch(r, callback);
+                        // match task {
+                        // Ok(t) => false,
+                        // Err(e) => {
+                        //     ConsoleService::log(&format!("{:#?}", e));
+                        //     false
+                        // }
+                        // }
+                        // match self.fetch::request {
+                        // Ok(t) => false,
+                        // Err(e) => {
+                        //     ConsoleService::log(&format!("{:#?}", e));
+                        //     false
+                        // }
+                        // }
+                        self.fetch = Some(FetchService::fetch(r, callback).unwrap());
+                        self.fetch.as_ref().unwrap();
+                        false
+                    }
+                    Err(e) => {
+                        ConsoleService::log(&format!("{:#?}", e));
+                        false
+                    }
+                }
+            }
         }
     }
 
@@ -70,32 +142,6 @@ impl Component for Signup {
     }
 
     fn view(&self) -> Html {
-        let e = self.props.email.clone();
-        let p = self.props.p1.clone();
-
-        let req = SignUp::build_query(sign_up::Variables {
-            email: e,
-            password: p,
-        });
-
-        let get_request = Request::post("http://127.0.0.1:4000/api")
-            .header("Content-Type", "application/json")
-            .body(Json(req))
-            .expect("Failed to build request.");
-
-        let callback = self
-            .link
-            .callback(|response: Response<Json<Result<Email, Error>>>| {
-                // if let (meta, Json(Ok(body))) = response.into_parts() {
-                //     if meta.status.is_success() {
-                //         return SignupMessage::FetchResourceComplete(body);
-                //     }
-                // }
-                SignupMessage::FetchResourceFailed
-            });
-
-        let task = FetchService::fetch(get_request, callback);
-
         html! {
             <div id="container" class="form-page">
                 <div id="form-container">
@@ -127,9 +173,9 @@ impl Component for Signup {
                         />
                         <button
                             disabled={ self.props.email.is_empty() || self.props.p1.is_empty() || self.props.p2.is_empty() || (self.props.p1 != self.props.p2) }
-                            onclick=Callback::from(move |ev: MouseEvent| {
-                                ev.prevent_default();
-                                ConsoleService::log(&e)
+                            onclick=self.link.callback(|e: MouseEvent| {
+                                e.prevent_default();
+                                SignupMessage::RunFetch
                             })
                         >{"Sign up"}</button>
                     </form>
@@ -139,7 +185,7 @@ impl Component for Signup {
     }
 }
 
-#[derive(GraphQLQuery)]
+#[derive(GraphQLQuery, Debug)]
 #[graphql(
     query_path = "../schema/mutations/signup.graphql",
     schema_path = "../schema/schema.graphql",
@@ -158,11 +204,11 @@ pub struct Email {
 //     });
 
 //     let client = reqwest::Client::new();
-//     let res = client
-//         .post("http://127.0.0.1:4000/api")
-//         .json(&req)
-//         .send()
-//         .await?;
+// let res = client
+//     .post("http://127.0.0.1:4000/api")
+//     .json(&req)
+//     .send()
+//     .await?;
 //     let response_body: Response<sign_up::ResponseData> = res.json().await?;
 
 //     match serde_json::to_string_pretty(&response_body) {
