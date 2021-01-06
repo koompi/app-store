@@ -36,7 +36,7 @@ pub enum Msg {
     RunMutation,
     MutationFailed(anyhow::Error),
     MutationCompleted(bool),
-    MutationSucceeded(sign_up::SignUpSignUp),
+    MutationSucceeded(Option<sign_up_mutation::SignUpMutationSignup>),
 }
 
 impl Component for SignUpPage {
@@ -72,27 +72,32 @@ impl Component for SignUpPage {
                 ConsoleService::log(&format!("{:#?}", e));
                 false
             }
-            Msg::MutationCompleted(b) => b,
+            Msg::MutationCompleted(b) => {
+                ConsoleService::log(&format!("Muation completed with status: {:#?}", b));
+                b
+            }
             Msg::RunMutation => {
                 let e = self.props.email.clone();
                 let p = self.props.p1.clone();
 
-                let body = SignUp::build_query(sign_up::Variables {
+                let body = SignUpMutation::build_query(sign_up_mutation::Variables {
                     email: e,
                     password: p,
                 });
-                // ConsoleService::log(&format!("{:?}", body.query));
 
                 let request = ::http::Request::post("http://0.0.0.0:4000/api")
                     .header("Credentials", "same-origin")
                     .header("Accept", "application/json")
                     .header("Content-Type", "application/json")
                     .body(Json(&body));
+
                 match request {
                     Ok(r) => {
                         let callback = self.link.callback(
                             |response: http::Response<
-                                Json<Result<Response<sign_up::ResponseData>, anyhow::Error>>,
+                                Json<
+                                    Result<Response<sign_up_mutation::ResponseData>, anyhow::Error>,
+                                >,
                             >| {
                                 let (meta, body) = response.into_parts();
 
@@ -112,12 +117,52 @@ impl Component for SignUpPage {
                                 // }
                                 // let mut j_string: String =
                                 //     format!("{:#?}", body.0.unwrap().data.unwrap().signup);
-                                let res = body.0.unwrap().data.unwrap();
+                                // if !meta.status.is_success() {
+                                //
+                                // }
+                                if meta.status.is_success() {
+                                    ConsoleService::log(&format!("Muation finished running"));
+                                }
 
-                                // let j = serde_json::from_str(&j_string);
+                                if meta.status.is_client_error() {
+                                    ConsoleService::log(&format!(
+                                        "There was some error in the client"
+                                    ));
+                                }
 
-                                ConsoleService::log(&format!("{:#?}", res));
-                                Msg::MutationSucceeded(res.sign_up)
+                                if meta.status.is_server_error() {
+                                    ConsoleService::log(&format!("Interal server error"));
+                                }
+
+                                match body.0 {
+                                    Ok(d) => {
+                                        // let res = d.data.unwrap().signup;
+                                        // ConsoleService::log(&format!("{:#?}", res));
+                                        // Msg::MutationSucceeded(res)
+
+                                        match d.errors {
+                                            Some(errors) => {
+                                                ConsoleService::log(&format!("{:#?}", errors));
+                                                Msg::MutationSucceeded(None)
+                                            }
+                                            None => match d.data {
+                                                Some(data) => {
+                                                    ConsoleService::log(&format!(
+                                                        "{:#?}",
+                                                        data.signup
+                                                    ));
+                                                    Msg::MutationSucceeded(Some(data.signup))
+                                                }
+                                                None => Msg::MutationSucceeded(None),
+                                            },
+                                        }
+                                    }
+                                    Err(e) => {
+                                        ConsoleService::log("There was some errors");
+                                        Msg::MutationFailed(e)
+                                    }
+                                }
+                                // body.0.unwrap()
                             },
                         );
 
@@ -190,14 +235,14 @@ impl Component for SignUpPage {
     schema_path = "../schema/schema.graphql",
     response_derives = "Debug,Serialize,Deserialize,PartialEq"
 )]
-pub struct SignUp;
+pub struct SignUpMutation;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SignUpSignUp {
+pub struct SignUpMutationSignup {
     email: String,
 }
 // pub async fn signup(email: String, password: String) -> Result<Option<Email>, anyhow::Error> {
-//     let req = SignUp::build_query(sign_up::Variables {
+//     let req = SignUp::build_query(sign_up_mutation::Variables {
 //         email: email,
 //         password: password,
 //     });
@@ -208,7 +253,7 @@ pub struct SignUpSignUp {
 //     .json(&req)
 //     .send()
 //     .await?;
-//     let response_body: Response<sign_up::ResponseData> = res.json().await?;
+//     let response_body: Response<sign_up_mutation::ResponseData> = res.json().await?;
 
 //     match serde_json::to_string_pretty(&response_body) {
 //         Ok(s) => {
