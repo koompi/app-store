@@ -1,0 +1,3 @@
+mutation DeleteRoleMutation($id: String!) {
+    deleteRole(id: $id)
+}

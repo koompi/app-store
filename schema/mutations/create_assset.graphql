@@ -1,0 +1,29 @@
+mutation CreateAssetMutation(
+    $name: String!
+    $assetType: String!
+    $dateCreated: String!
+    $modifiedDate: String!
+    $ownerId: String!
+    $privacy: String!
+    $description: String!
+) {
+    createAsset(
+        name: $name
+        assetType: $assetType
+        dateCreated: $dateCreated
+        modifiedDate: $modifiedDate
+        ownerId: $ownerId
+        privacy: $privacy
+        description: $description
+    ) {
+        id
+        name
+        assetType
+        dateCreated
+        modifiedDate
+        ownerId
+        privacy
+        description
+        ownerInfo
+    }
+}

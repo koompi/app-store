@@ -1,0 +1,19 @@
+mutation CreateOrgMutation(
+    $name: String!
+    $description: String!
+    $ownerId: String!
+    $members: [String!]!
+) {
+    createOrg(
+        name: $name
+        description: $description
+        ownerId: $ownerId
+        members: $members
+    ) {
+        id
+        name
+        description
+        ownerId
+        members
+    }
+}

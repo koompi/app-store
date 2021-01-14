@@ -1,0 +1,30 @@
+mutation updateProfileMutation(
+    $id: String!
+    $name: String!
+    $bioDesc: String!
+    $address: String!
+    $avatar: String!
+    $ownerId: String!
+    $website: String!
+    $company: String!
+) {
+    updateProfile(
+        id: $id
+        name: $name
+        bioDesc: $bioDesc
+        address: $address
+        avatar: $avatar
+        ownerId: $ownerId
+        website: $website
+        company: $company
+    ) {
+        id
+        name
+        bioDesc
+        address
+        avatar
+        ownerId
+        website
+        company
+    }
+}

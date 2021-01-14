@@ -1,0 +1,7 @@
+query UsersByIdsQuery($ids: [String!]!) {
+    usersByIds(ids: $id) {
+        id
+        email
+        status
+    }
+}

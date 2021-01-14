@@ -49,7 +49,7 @@ impl Component for AppByName {
                             <div
                                 class="img-holder"
                                 style="
-                                    background-image: url('/images/IMG_2532.jpg');
+                                    background-image: url('/images/IMG_2532_lower.jpg');
                                 "
                             ></div>
                             <div
@@ -108,7 +108,7 @@ impl Component for AppByName {
                             <div
                                 class="img-holder"
                                 style="
-                                    background-image: url('/images/IMG_2532.jpg');
+                                    background-image: url('/images/IMG_2532_lower.jpg');
                                 "
                             ></div>
                             <div

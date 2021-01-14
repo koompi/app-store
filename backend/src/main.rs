@@ -7,10 +7,13 @@ pub mod models;
 use actix_cors::Cors;
 use actix_web::{
     guard,
-    http::{header, StatusCode},
-    web, App, HttpServer,
+    // http::{header, StatusCode},
+    web,
+    App,
+    HttpServer,
 };
 use async_graphql::{EmptySubscription, Schema};
+use listenfd::ListenFd;
 
 // Local imports
 use database::db_pool;
@@ -20,6 +23,7 @@ use handler::{gql_playgound, index};
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv::from_filename(".env").ok();
+    let mut listenfd = ListenFd::from_env();
 
     let ip = dotenv::var("IP").unwrap();
     let port = dotenv::var("PORT").unwrap();
@@ -32,7 +36,7 @@ async fn main() -> std::io::Result<()> {
 
     let schema = Schema::build(RootQuery, RootMutation, EmptySubscription).finish();
 
-    HttpServer::new(move || {
+    let mut server = HttpServer::new(move || {
         App::new()
             .data(schema.clone())
             .data(pool.clone())
@@ -59,8 +63,15 @@ async fn main() -> std::io::Result<()> {
             )
             .service(web::resource("/api").guard(guard::Post()).to(index))
             .service(web::resource("/api").guard(guard::Get()).to(gql_playgound))
-    })
-    .bind(&address)?
-    .run()
-    .await
+    });
+    server = if let Some(listener) = listenfd.take_tcp_listener(0).unwrap() {
+        server.listen(listener)?
+    } else {
+        server.bind(&address)?
+    };
+    server.run().await
+
+    // .bind(&address)?
+    // .run()
+    // .await
 }

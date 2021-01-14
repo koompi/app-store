@@ -1,0 +1,11 @@
+query OrgsByOwnerIdQuery($ownerId: String!) {
+    orgsByOwnerId(ownerId: $ownerId) {
+        id
+        name
+        description
+        ownerId
+        members
+        ownerInfo
+        membersInfo
+    }
+}

@@ -1,0 +1,25 @@
+mutation CreateProductMutation(
+    $name: String!
+    $description: String!
+    $productType: String!
+    $ownerId: String!
+    $dateCreated: String!
+    $status: String!
+) {
+    createProduct(
+        name: $name
+        description: $description
+        productType: $productType
+        ownerId: $ownerId
+        dateCreated: $dateCreated
+        status: $status
+    ) {
+        id
+        name
+        description
+        productType
+        ownerId
+        dateCreated
+        status
+    }
+}

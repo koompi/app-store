@@ -1,0 +1,13 @@
+query ProfilesQuery {
+    profiles {
+        id
+        name
+        bioDesc
+        address
+        avatar
+        ownerId
+        website
+        company
+        ownerInfo
+    }
+}

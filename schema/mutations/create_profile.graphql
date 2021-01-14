@@ -1,0 +1,28 @@
+mutation CreateProfileMutation(
+    $name: String!
+    $bioDesc: String!
+    $address: String!
+    $avatar: String!
+    $ownerId: String!
+    $website: String!
+    $company: String!
+) {
+    createProfile(
+        name: $name
+        bioDesc: $bioDesc
+        address: $address
+        avatar: $avatar
+        ownerId: $ownerId
+        website: $website
+        company: $company
+    ) {
+        id
+        name
+        bioDesc
+        address
+        avatar
+        ownerId
+        website
+        company
+    }
+}

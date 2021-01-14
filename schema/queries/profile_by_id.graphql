@@ -1,0 +1,13 @@
+query ProfileByIdQuery($id: String!) {
+    profileById(id: $id) {
+        id
+        name
+        bioDesc
+        address
+        avatar
+        ownerId
+        website
+        company
+        ownerInfo
+    }
+}

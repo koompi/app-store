@@ -1,0 +1,13 @@
+query AssetByIdQuery($id: String!) {
+    assetById(id: $id) {
+        id
+        name
+        assetType
+        dateCreated
+        modifiedDate
+        ownerId
+        privacy
+        description
+        ownerInfo
+    }
+}

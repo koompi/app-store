@@ -1,0 +1,7 @@
+query RoleByIdQuery($id: String!) {
+    roleById(id: $id) {
+        id
+        name
+        description
+    }
+}

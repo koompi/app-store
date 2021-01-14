@@ -47,7 +47,7 @@ impl Component for Home {
                         <AppRouteAnchor classes="home-logo-link" route={AppRoute::AppByNamePage(String::from("visual-studio-code"))}>
                             <div
                                 class="img-container"
-                                style="background-image: url('/images/IMG_2532.jpg')"
+                                style="background-image: url('/images/IMG_2532_lower.jpg')"
                             ></div>
                             <div class="info">
                                 <h3>{"Visual Studio Code"}</h3>
@@ -69,7 +69,7 @@ impl Component for Home {
                     <div class="card">
                         <div
                             class="img-container"
-                            style="background-image: url('/images/IMG_2532.jpg')"
+                            style="background-image: url('/images/IMG_2532_lower.jpg')"
                         ></div>
                         <div class="info">
                             <h3>{"Atom IDE"}</h3>

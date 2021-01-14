@@ -1,0 +1,13 @@
+query AssetsQuery {
+    assets {
+        id
+        name
+        assetType
+        dateCreated
+        modifiedDate
+        ownerId
+        privacy
+        description
+        ownerInfo
+    }
+}

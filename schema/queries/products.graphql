@@ -1,0 +1,12 @@
+query ProductsQuery {
+    products {
+        id
+        name
+        description
+        productType
+        ownerId
+        dateCreated
+        status
+        ownerInfo
+    }
+}

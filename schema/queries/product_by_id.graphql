@@ -1,0 +1,12 @@
+query ProductByIdQuery($id: String!) {
+    productById(id: $id) {
+        id
+        name
+        description
+        productType
+        ownerId
+        dateCreated
+        status
+        ownerInfo
+    }
+}

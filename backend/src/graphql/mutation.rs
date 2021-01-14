@@ -77,11 +77,7 @@ impl RootMutation {
                 true => {
                     #[allow(non_snake_case)]
                     let SECRET = env::var("SECRET").unwrap();
-                    // let option = Claims {
-                    //     id: data.id.to_string(),
-                    //     email: data.email,
-                    //     role: "USER".to_string(),
-                    // };
+
                     let option = Claims::default();
                     let token = encode(
                         &Header::default(),
@@ -91,7 +87,7 @@ impl RootMutation {
                     .unwrap();
                     Ok(token.to_string())
                 }
-                false => Err(FieldError::from("NO")),
+                false => Err(FieldError::from("Invalid password")),
             },
             Err(e) => Err(FieldError::from(e)),
         }
