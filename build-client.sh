@@ -1,3 +1,4 @@
 #!/bin/bash
-cd client &&
+
+cd client-web &&
     wasm-pack build --release --target web --out-name wasm --out-dir ../static
