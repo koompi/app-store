@@ -33,7 +33,7 @@ impl Component for Categories {
                     {
                         CATS.iter().map(|cat| {
                             html! {
-                                <div class="cate-card" style={&format!("background-image: url('http://127.0.0.1:5500{}');", cat.icon.clone())}>
+                                <div class="cate-card" style={&format!("background-image: url('http://127.0.0.1:4002{}');", cat.icon.clone())}>
                                     <h3>{ cat.name.clone() }</h3>
                                 </div>
                             }
